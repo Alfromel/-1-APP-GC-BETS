@@ -545,40 +545,9 @@
             });
         }
 
-        // Botón de instalación
-        let deferredPrompt;
-        const installButton = document.createElement('button');
-        installButton.textContent = 'Instalar TokTok';
-        installButton.className = 'btn-primary fixed bottom-4 right-4 z-50 py-2 px-4 rounded-full shadow-lg animate-bounce';
-        installButton.style.display = 'none';
-
-        document.body.appendChild(installButton);
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installButton.style.display = 'block';
-            
-            installButton.addEventListener('click', () => {
-                installButton.style.display = 'none';
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(choiceResult => {
-                    if (choiceResult.outcome === 'accepted') {
-                        showToast('success', 'Instalación', 'TokTok se está instalando...');
-                    } else {
-                        showToast('info', 'Instalación', 'Puedes instalarlo más tarde desde el menú.');
-                    }
-                    deferredPrompt = null;
-                });
-            });
-        });
-
-        window.addEventListener('appinstalled', () => {
-            installButton.style.display = 'none';
-            deferredPrompt = null;
-            showToast('success', '¡Instalado!', 'TokTok ha sido instalado correctamente.');
-        });
+        
     </script>
     <script src="js/auth.js"></script>
 </body>
+
 </html>
