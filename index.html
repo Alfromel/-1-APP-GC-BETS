@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BETS - Inicio</title>
+    
+    <!-- Meta tags para PWA -->
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="BETS GC - Tu plataforma de apuestas">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Bets" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            overflow: hidden;
+            height: 100vh;
+            background: #000;
+        }
+        
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        #intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 0, 0, 0.7) 0%,
+                rgba(0, 0, 0, 0.4) 50%,
+                rgba(0, 0, 0, 0.7) 100%
+            );
+            z-index: 1;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .logo {
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease;
+        }
+        
+        .logo h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            margin-bottom: 5px;
+            letter-spacing: 3px;
+        }
+        
+        .logo p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        /* Efectos para móviles */
+        @media (max-width: 768px) {
+            .logo h1 {
+                font-size: 3.5rem;
+            }
+            
+            .logo p {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Estilos para el botón de instalación */
+        .install-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(10px);
+            font-size: 14px;
+        }
+        
+        .install-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video id="intro-video" autoplay muted>
+            <source src="video/intro.mp4" type="video/mp4">
+            <source src="video/intro.webm" type="video/webm">
+            Tu navegador no soporta el elemento de video.
+        </video>
+        <div class="overlay"></div>
+    </div>
+    
+    <div class="content">
+        <div class="logo">
+            <h1>BETS</h1>
+            <p>GC</p>
+        </div>
+    </div>
+    
+    <button id="installButton" class="install-button">
+        <i class="fas fa-download"></i> Instalar App
+    </button>
+
+    <script>
+        // Registro del Service Worker para PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('Service Worker registrado con éxito:', registration);
+                    })
+                    .catch((error) => {
+                        console.log('Error al registrar el Service Worker:', error);
+                    });
+            });
+        }
+
+        // Lógica para el botón de instalación
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Previene que el navegador muestre automáticamente el prompt
+            e.preventDefault();
+            // Guarda el evento para poder activarlo después
+            deferredPrompt = e;
+            // Muestra el botón de instalación
+            installButton.style.display = 'block';
+        });
+        
+        installButton.addEventListener('click', () => {
+            if (deferredPrompt) {
+                // Muestra el prompt de instalación
+                deferredPrompt.prompt();
+                // Espera a que el usuario responda al prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Usuario aceptó la instalación');
+                    } else {
+                        console.log('Usuario rechazó la instalación');
+                    }
+                    deferredPrompt = null;
+                    // Oculta el botón después de la interacción
+                    installButton.style.display = 'none';
+                });
+            }
+        });
+        
+        // Redirección automática después de 5 segundos
+        setTimeout(() => {
+            window.location.href = 'gc/index.html';
+        }, 5000);
+        
+        // Reproducir el video en bucle (opcional)
+        const video = document.getElementById('intro-video');
+        video.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        });
+    </script>
+</body>
+</html>

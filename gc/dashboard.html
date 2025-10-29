@@ -1,0 +1,2729 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GC - Apuestas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #000000;
+            --primary-dark: #333333;
+            --secondary: #4a5568;
+            --secondary-dark: #2d3748;
+            --accent: #6b7280;
+            --accent-dark: #4b5563;
+            --safe-area-inset-top: env(safe-area-inset-top);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: #f1f5f9;
+            padding-top: var(--safe-area-inset-top);
+            padding-bottom: var(--safe-area-inset-bottom);
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Estilo de aplicación móvil */
+        @media (max-width: 768px) {
+            body {
+                background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+                max-width: 100vw;
+                overflow-x: hidden;
+            }
+            
+            main {
+                padding-left: 0;
+                padding-right: 0;
+            }
+            
+            .mobile-app-container {
+                max-width: 100%;
+                margin: 0 auto;
+                position: relative;
+                height: 100vh;
+                height: calc(var(--vh, 1vh) * 100);
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .mobile-content {
+                flex: 1;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 60px; /* Espacio para la barra de navegación */
+            }
+            
+            .mobile-bottom-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 60px;
+                background: rgba(15, 15, 15, 0.95);
+                backdrop-filter: blur(20px);
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                display: flex;
+                z-index: 50;
+                padding-bottom: var(--safe-area-inset-bottom);
+            }
+            
+            .nav-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: #9ca3af;
+                font-size: 10px;
+                text-decoration: none;
+                transition: all 0.2s;
+            }
+            
+            .nav-item i {
+                font-size: 20px;
+                margin-bottom: 4px;
+            }
+            
+            .nav-item.active {
+                color: #ffffff;
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .mobile-header {
+                position: sticky;
+                top: 0;
+                z-index: 40;
+                background: rgba(15, 15, 15, 0.95);
+                backdrop-filter: blur(20px);
+                padding: 12px 16px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-top: calc(12px + var(--safe-area-inset-top));
+            }
+            
+            .mobile-header-title {
+                font-size: 18px;
+                font-weight: 600;
+                color: #ffffff;
+            }
+            
+            .mobile-header-actions {
+                display: flex;
+                align-items: center;
+            }
+            
+            .mobile-card {
+                background: rgba(30, 30, 30, 0.8);
+                backdrop-filter: blur(20px);
+                border-radius: 16px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                margin: 16px;
+                overflow: hidden;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .mobile-section-title {
+                font-size: 16px;
+                font-weight: 600;
+                color: #ffffff;
+                margin: 16px 16px 8px;
+            }
+            
+            .mobile-action-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                padding: 12px;
+                border-radius: 12px;
+                background: rgba(30, 30, 30, 0.8);
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+                transition: all 0.2s;
+            }
+            
+            .mobile-action-btn i {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                margin-bottom: 8px;
+                color: white;
+            }
+            
+            .mobile-action-btn span {
+                font-size: 12px;
+                font-weight: 500;
+                color: #e5e7eb;
+            }
+            
+            .mobile-transaction-item {
+                display: flex;
+                align-items: center;
+                padding: 12px 16px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .mobile-transaction-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 12px;
+                font-size: 18px;
+            }
+            
+            .mobile-transaction-details {
+                flex: 1;
+            }
+            
+            .mobile-transaction-title {
+                font-size: 14px;
+                font-weight: 500;
+                color: #f9fafb;
+                margin-bottom: 2px;
+            }
+            
+            .mobile-transaction-date {
+                font-size: 12px;
+                color: #9ca3af;
+            }
+            
+            .mobile-transaction-amount {
+                font-size: 14px;
+                font-weight: 600;
+            }
+            
+            .mobile-tabs {
+                display: flex;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                margin: 0 16px;
+            }
+            
+            .mobile-tab {
+                flex: 1;
+                text-align: center;
+                padding: 12px 0;
+                font-size: 14px;
+                font-weight: 500;
+                color: #9ca3af;
+                position: relative;
+            }
+            
+            .mobile-tab.active {
+                color: #ffffff;
+            }
+            
+            .mobile-tab.active::after {
+                content: '';
+                position: absolute;
+                bottom: -1px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40%;
+                height: 2px;
+                background: #ffffff;
+                border-radius: 2px;
+            }
+            
+            .mobile-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 100;
+                display: flex;
+                align-items: flex-end;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s;
+            }
+            
+            .mobile-modal.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .mobile-modal-content {
+                background: rgba(30, 30, 30, 0.95);
+                backdrop-filter: blur(20px);
+                width: 100%;
+                border-radius: 24px 24px 0 0;
+                padding: 24px;
+                transform: translateY(100%);
+                transition: all 0.3s;
+                max-height: 90vh;
+                overflow-y: auto;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .mobile-modal.active .mobile-modal-content {
+                transform: translateY(0);
+            }
+            
+            .mobile-modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            
+            .mobile-modal-title {
+                font-size: 18px;
+                font-weight: 600;
+                color: #ffffff;
+            }
+            
+            .mobile-modal-close {
+                color: #9ca3af;
+                font-size: 20px;
+            }
+            
+            .mobile-input {
+                width: 100%;
+                padding: 14px 16px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 12px;
+                font-size: 16px;
+                margin-bottom: 16px;
+                background: rgba(15, 15, 15, 0.6);
+                color: #f9fafb;
+            }
+            
+            .mobile-input:focus {
+                border-color: #ffffff;
+                outline: none;
+                background: rgba(15, 15, 15, 0.8);
+            }
+            
+            .mobile-btn {
+                width: 100%;
+                padding: 14px;
+                border-radius: 12px;
+                font-size: 16px;
+                font-weight: 500;
+                text-align: center;
+                margin-top: 8px;
+            }
+            
+            .mobile-btn-primary {
+                background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+                color: #1a1a1a;
+                font-weight: 600;
+            }
+            
+            .mobile-btn-secondary {
+                background: rgba(255, 255, 255, 0.1);
+                color: #e5e7eb;
+            }
+            
+            .mobile-operator-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 12px;
+                margin-bottom: 8px;
+            }
+            
+            .mobile-operator-btn.selected {
+                border-color: #ffffff;
+                background: rgba(255, 255, 255, 0.1);
+                color: #ffffff;
+            }
+            
+            .mobile-avatar {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                font-weight: 600;
+                color: #1a1a1a;
+                margin: 0 auto 16px;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .mobile-avatar img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            .mobile-profile-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 12px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .mobile-profile-label {
+                color: #9ca3af;
+                font-size: 14px;
+            }
+            
+            .mobile-profile-value {
+                color: #f9fafb;
+                font-weight: 500;
+                font-size: 14px;
+            }
+            
+            .mobile-balance-card {
+                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+                color: #ffffff;
+                border-radius: 20px;
+                padding: 24px;
+                margin: 16px;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .mobile-balance-label {
+                font-size: 14px;
+                color: rgba(255, 255, 255, 0.7);
+                margin-bottom: 4px;
+            }
+            
+            .mobile-balance-amount {
+                font-size: 32px;
+                font-weight: 800;
+                margin-bottom: 20px;
+            }
+            
+            .mobile-balance-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .mobile-balance-wallet {
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.7);
+            }
+            
+            .mobile-balance-icon {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .mobile-empty-state {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 40px 16px;
+                text-align: center;
+            }
+            
+            .mobile-empty-icon {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 16px;
+                color: #9ca3af;
+                font-size: 24px;
+            }
+            
+            .mobile-empty-text {
+                color: #9ca3af;
+                font-size: 14px;
+                margin-top: 8px;
+            }
+            
+            /* Estilos para el Buscaminas */
+            .game-card {
+                background: rgba(30, 30, 30, 0.8);
+                backdrop-filter: blur(20px);
+                border-radius: 20px;
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+                overflow: hidden;
+                margin-bottom: 16px;
+                transition: all 0.3s;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .game-header {
+                padding: 20px;
+                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+                color: #ffffff;
+                display: flex;
+                align-items: center;
+            }
+            
+            .game-icon {
+                width: 50px;
+                height: 50px;
+                border-radius: 12px;
+                background: rgba(255, 255, 255, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 12px;
+                font-size: 20px;
+                color: #ffffff;
+            }
+            
+            .game-title {
+                font-size: 20px;
+                font-weight: 700;
+            }
+            
+            .game-description {
+                font-size: 14px;
+                opacity: 0.9;
+            }
+            
+            .game-content {
+                padding: 16px;
+            }
+            
+            .bet-amounts {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                margin-bottom: 16px;
+            }
+            
+            .bet-amount {
+                padding: 16px;
+                border: 2px solid rgba(255, 255, 255, 0.2);
+                border-radius: 12px;
+                text-align: center;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+                background: rgba(255, 255, 255, 0.05);
+                color: #e5e7eb;
+            }
+            
+            .bet-amount.selected {
+                border-color: #ffffff;
+                background: rgba(255, 255, 255, 0.1);
+                color: #ffffff;
+                transform: scale(1.05);
+            }
+            
+            .bet-button {
+                width: 100%;
+                padding: 16px;
+                border-radius: 12px;
+                font-size: 16px;
+                font-weight: 700;
+                text-align: center;
+                background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+                color: #1a1a1a;
+                border: none;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            
+            .bet-button:disabled {
+                background: #4b5563;
+                cursor: not-allowed;
+            }
+            
+            .bet-button:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+            }
+            
+            .game-result {
+                text-align: center;
+                padding: 20px;
+                margin-top: 16px;
+                border-radius: 16px;
+                font-weight: 700;
+                font-size: 18px;
+            }
+            
+            .game-result.win {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                color: white;
+            }
+            
+            .game-result.loss {
+                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+                color: white;
+            }
+            
+            /* Estilos para el tablero de Buscaminas */
+            .minesweeper-container {
+                padding: 12px;
+            }
+            
+            .minesweeper-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 12px;
+            }
+            
+            .minesweeper-timer {
+                background: rgba(15, 15, 15, 0.6);
+                border-radius: 12px;
+                padding: 6px 10px;
+                font-size: 12px;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                color: #ffffff;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .minesweeper-timer i {
+                margin-right: 6px;
+                font-size: 10px;
+            }
+            
+            .minesweeper-info {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 12px;
+                background: rgba(15, 15, 15, 0.6);
+                border-radius: 12px;
+                padding: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .minesweeper-stats {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .minesweeper-stats-label {
+                font-size: 9px;
+                color: #9ca3af;
+                margin-bottom: 2px;
+            }
+            
+            .minesweeper-stats-value {
+                font-size: 14px;
+                font-weight: 800;
+                color: #f9fafb;
+            }
+            
+            .minesweeper-stats-value.progress-achieved {
+                color: #10b981;
+            }
+            
+            .minesweeper-board {
+                display: grid;
+                grid-template-columns: repeat(8, 1fr);
+                gap: 4px;
+                margin-bottom: 12px;
+            }
+            
+            .minesweeper-cell {
+                aspect-ratio: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+                border-radius: 6px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s;
+                user-select: none;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                font-size: 12px;
+            }
+            
+            .minesweeper-cell:hover {
+                background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+                transform: scale(1.05);
+            }
+            
+            .minesweeper-cell.revealed {
+                background: rgba(255, 255, 255, 0.1);
+                cursor: default;
+                transform: scale(1);
+            }
+            
+            .minesweeper-cell.revealed:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .minesweeper-cell.mine {
+                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+                color: white;
+            }
+            
+            .minesweeper-cell.flag {
+                background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+                color: #1a1a1a;
+            }
+            
+            .minesweeper-cell.number-1 { color: #60a5fa; }
+            .minesweeper-cell.number-2 { color: #34d399; }
+            .minesweeper-cell.number-3 { color: #f87171; }
+            .minesweeper-cell.number-4 { color: #a78bfa; }
+            .minesweeper-cell.number-5 { color: #ffffff; }
+            .minesweeper-cell.number-6 { color: #22d3ee; }
+            .minesweeper-cell.number-7 { color: #ffffff; }
+            .minesweeper-cell.number-8 { color: #d1d5db; }
+            
+            .minesweeper-controls {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+            
+            .minesweeper-difficulty {
+                display: flex;
+                gap: 6px;
+                margin-bottom: 12px;
+            }
+            
+            .difficulty-btn {
+                flex: 1;
+                padding: 8px;
+                border: 2px solid rgba(255, 255, 255, 0.2);
+                border-radius: 8px;
+                text-align: center;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+                background: rgba(255, 255, 255, 0.05);
+                color: #e5e7eb;
+                font-size: 10px;
+            }
+            
+            .difficulty-btn.selected {
+                border-color: #ffffff;
+                background: rgba(255, 255, 255, 0.1);
+                color: #ffffff;
+                transform: scale(1.02);
+            }
+            
+            .cashout-btn {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                color: white;
+                padding: 16px;
+                border-radius: 12px;
+                font-weight: 700;
+                cursor: pointer;
+                text-align: center;
+                transition: all 0.2s;
+                box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+            }
+            
+            .cashout-btn:hover {
+                background: linear-gradient(135deg, #059669 0%, #047857 100%);
+                transform: translateY(-2px);
+            }
+            
+            .cashout-btn:disabled {
+                background: #4b5563;
+                cursor: not-allowed;
+            }
+            
+            .progress-indicator {
+                background: rgba(15, 15, 15, 0.6);
+                border-radius: 8px;
+                padding: 8px;
+                margin-bottom: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .progress-text {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 6px;
+                font-size: 10px;
+            }
+            
+            .progress-bar {
+                height: 4px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 4px;
+                overflow: hidden;
+            }
+            
+            .progress-fill {
+                height: 100%;
+                background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+                border-radius: 4px;
+                transition: width 0.3s ease;
+            }
+            
+            .progress-fill.achieved {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            }
+            
+            .benefit-indicator {
+                text-align: center;
+                padding: 6px;
+                border-radius: 6px;
+                font-weight: 600;
+                font-size: 10px;
+                margin-top: 6px;
+            }
+            
+            .benefit-indicator.positive {
+                background: rgba(16, 185, 129, 0.2);
+                color: #10b981;
+                border: 1px solid rgba(16, 185, 129, 0.3);
+            }
+            
+            /* Estilos para el campo de apuesta compacto */
+            .bet-input-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 12px;
+                background: rgba(15, 15, 15, 0.6);
+                border-radius: 8px;
+                padding: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .bet-input-label {
+                font-size: 12px;
+                color: #9ca3af;
+                margin-right: 8px;
+                white-space: nowrap;
+            }
+            
+            .bet-input {
+                flex: 1;
+                background: transparent;
+                border: none;
+                color: #ffffff;
+                font-size: 14px;
+                font-weight: 600;
+                text-align: right;
+                outline: none;
+            }
+            
+            .bet-input::placeholder {
+                color: #6b7280;
+            }
+            
+            /* Ocultar elementos de desktop */
+            .desktop-only {
+                display: none !important;
+            }
+        }
+        
+        /* Estilos para desktop (se mantienen igual) */
+        @media (min-width: 769px) {
+            .mobile-only {
+                display: none !important;
+            }
+            
+            /* Todos los estilos originales se mantienen aquí pero actualizados */
+            .glass-card {
+                background: rgba(30, 30, 30, 0.8);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+            
+            .btn-primary {
+                background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+                box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                color: #1a1a1a;
+                font-weight: 600;
+            }
+            
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+            }
+            
+            /* ... resto de estilos desktop similares actualizados ... */
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Versión Mobile -->
+    <div class="mobile-only mobile-app-container">
+        <!-- Header -->
+        <div class="mobile-header">
+            <div class="mobile-header-title" id="mobile-header-title">Juegos</div>
+            <div class="mobile-header-actions">
+                <button id="mobile-logout-btn" class="text-white">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="mobile-content" id="mobile-content">
+            <!-- Vista de Juegos -->
+            <div id="mobile-games-view">
+                <!-- Tarjeta de balance -->
+                <div class="mobile-balance-card">
+                    <div class="mobile-balance-label">Saldo disponible</div>
+                    <div class="mobile-balance-amount" id="mobile-balance">Bs</div>
+                    <div class="mobile-balance-footer">
+                        <div>
+                            <div class="mobile-balance-wallet">GC Wallet</div>
+                            <div class="mobile-balance-wallet">Cuenta principal</div>
+                        </div>
+                        <div class="mobile-balance-icon">
+                            <i class="fas fa-wallet text-gray-300"></i>
+                        </div>
+                    </div>
+                    <button id="mobile-recharge-balance-btn" class="mt-4 w-full py-3 px-4 rounded-lg bg-white text-gray-900 font-bold flex items-center justify-center hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-plus-circle mr-2"></i>
+                        Recargar saldo
+                    </button>
+                    <button id="mobile-withdraw-balance-btn" class="mt-2 w-full py-3 px-4 rounded-lg bg-white text-gray-900 font-bold flex items-center justify-center hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-minus-circle mr-2"></i>
+                        Retirar saldo
+                    </button>
+                </div>
+                
+                <!-- Juegos disponibles -->
+                <div class="mobile-section-title">Juegos de Apuestas</div>
+                
+                <!-- Juego de Buscaminas -->
+                <div class="game-card">
+                    <div class="game-content">
+                        <div class="minesweeper-container">
+                            <!-- Cabecera con temporizador y estadísticas -->
+                            <div class="minesweeper-header">
+                                <div class="minesweeper-timer">
+                                    <i class="fas fa-clock"></i>
+                                    <span id="mobile-time-count">20</span>s
+                                </div>
+                                <div class="minesweeper-stats">
+                                    <div class="minesweeper-stats-label">Ganancia</div>
+                                    <div class="minesweeper-stats-value" id="mobile-win-percentage">+80%</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Campo de apuesta compacto -->
+                            <div class="bet-input-container">
+                                <span class="bet-input-label">Monto de apuesta:</span>
+                                <input type="number" id="mobile-bet-amount-input" class="bet-input" placeholder="0" min="1" value="10">
+                                <span class="text-xs text-gray-400 ml-1">Bs</span>
+                            </div>
+                            
+                            <!-- Indicador de progreso -->
+                            <div class="progress-indicator">
+                                <div class="progress-text">
+                                    <span>Progreso: <span id="mobile-progress-count">0%</span></span>
+                                    <span>Objetivo: <span id="mobile-required-progress">75%</span></span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div id="mobile-progress-fill" class="progress-fill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="minesweeper-info">
+                                <div class="minesweeper-stats">
+                                    <div class="minesweeper-stats-label">Minas</div>
+                                    <div class="minesweeper-stats-value" id="mobile-mines-count">10</div>
+                                </div>
+                                <div class="minesweeper-stats">
+                                    <div class="minesweeper-stats-label">Multiplicador</div>
+                                    <div class="minesweeper-stats-value" id="mobile-multiplier">1.8x</div>
+                                </div>
+                                <div class="minesweeper-stats">
+                                    <div class="minesweeper-stats-label">Apuesta</div>
+                                    <div class="minesweeper-stats-value" id="mobile-bet-display">10 Bs</div>
+                                </div>
+                            </div>
+                            
+                            <div class="minesweeper-difficulty">
+                                <div class="difficulty-btn selected" data-difficulty="easy">
+                                    <div>Fácil</div>
+                                    <div class="text-xs mt-1">75% - 1.8x</div>
+                                </div>
+                                <div class="difficulty-btn" data-difficulty="medium">
+                                    <div>Medio</div>
+                                    <div class="text-xs mt-1">55% - 2.2x</div>
+                                </div>
+                                <div class="difficulty-btn" data-difficulty="hard">
+                                    <div>Difícil</div>
+                                    <div class="text-xs mt-1">29% - 3.5x</div>
+                                </div>
+                            </div>
+                            
+                            <div class="minesweeper-board" id="mobile-minesweeper-board">
+                                <!-- El tablero se generará dinámicamente -->
+                            </div>
+                            
+                            <div class="minesweeper-controls">
+                                <button id="mobile-minesweeper-reset" class="flex-1 py-3 px-4 rounded-lg bg-gray-700 text-white font-bold hover:bg-gray-600 transition-colors">
+                                    <i class="fas fa-redo mr-2"></i>
+                                    Reiniciar
+                                </button>
+                            </div>
+                            
+                            <div id="mobile-minesweeper-result" class="game-result hidden"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vista de Transacciones -->
+            <div id="mobile-transactions-view" class="hidden">
+                <div class="mobile-card mt-2">
+                    <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+                        <div class="text-sm font-medium text-white">Filtrar por:</div>
+                        <select id="mobile-transactions-filter" class="text-sm border-none bg-transparent text-white font-medium">
+                            <option value="all">Todas</option>
+                            <option value="deposit">Ingresos</option>
+                            <option value="withdrawal">Retiros</option>
+                            <option value="bet">Apuestas</option>
+                        </select>
+                    </div>
+                    <div id="mobile-transactions-full-list">
+                        <div class="mobile-transaction-item">
+                            <div class="w-full text-center py-8">
+                                <i class="fas fa-spinner fa-spin text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vista de Perfil -->
+            <div id="mobile-profile-view" class="hidden">
+                <div class="mobile-card mt-4">
+                    <div class="p-6 flex flex-col items-center">
+                        <div id="mobile-user-avatar" class="mobile-avatar">
+                            <span id="mobile-user-initials"></span>
+                        </div>
+                        <h2 id="mobile-user-name" class="text-lg font-semibold text-center text-white"></h2>
+                        <p id="mobile-user-email" class="text-white text-sm mt-1 text-center"></p>
+                        
+                        <button id="mobile-edit-profile-btn" class="mt-6 w-full py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center space-x-2 bg-white text-gray-900 hover:bg-gray-100 font-bold">
+                            <i class="fas fa-user-edit"></i>
+                            <span>Editar perfil</span>
+                        </button>
+                    </div>
+                    
+                    <div class="p-4">
+                        <div class="mobile-profile-item">
+                            <span class="mobile-profile-label">Teléfono</span>
+                            <span id="mobile-profile-phone" class="mobile-profile-value"></span>
+                        </div>
+                        <div class="mobile-profile-item">
+                            <span class="mobile-profile-label">Miembro desde</span>
+                            <span id="mobile-profile-created-at" class="mobile-profile-value"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mobile-card mt-4 p-4">
+                    <a href="seguridad.html" class="w-full py-3 text-left flex items-center justify-between block hover:bg-gray-700 rounded-lg px-2 transition-colors">
+                        <span class="font-medium text-white">Seguridad</span>
+                        <i class="fas fa-chevron-right text-white"></i>
+                    </a>
+                    <a href="ayuda.html" class="w-full py-3 text-left flex items-center justify-between block hover:bg-gray-700 rounded-lg px-2 transition-colors">
+                        <span class="font-medium text-white">Ayuda</span>
+                        <i class="fas fa-chevron-right text-white"></i>
+                    </a>
+                    <a href="acerca.html" class="w-full py-3 text-left flex items-center justify-between block hover:bg-gray-700 rounded-lg px-2 transition-colors">
+                        <span class="font-medium text-white">Acerca de</span>
+                        <i class="fas fa-chevron-right text-white"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Barra de navegación inferior -->
+        <div class="mobile-bottom-nav">
+            <a href="#" class="nav-item active" data-view="games">
+                <i class="fas fa-gamepad"></i>
+                <span>Juegos</span>
+            </a>
+            <a href="#" class="nav-item" data-view="transactions">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Transacciones</span>
+            </a>
+            <a href="#" class="nav-item" data-view="profile">
+                <i class="fas fa-user"></i>
+                <span>Perfil</span>
+            </a>
+        </div>
+        
+        <!-- Modal para editar perfil (mobile) -->
+        <div id="mobile-profile-modal" class="mobile-modal">
+            <div class="mobile-modal-content">
+                <div class="mobile-modal-header">
+                    <div class="mobile-modal-title">Editar perfil</div>
+                    <button id="mobile-close-profile-modal" class="mobile-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="flex justify-center mb-6">
+                    <div class="text-center">
+                        <div id="mobile-avatar-preview" class="mobile-avatar mx-auto mb-4"></div>
+                        <input type="file" id="mobile-avatar-input" accept="image/*" class="hidden">
+                        <button id="mobile-change-avatar-btn" class="text-sm text-white font-medium">
+                            Cambiar foto de perfil
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-full-name" class="block text-sm font-medium text-white mb-1">Nombre completo</label>
+                    <input type="text" id="mobile-full-name" class="mobile-input">
+                </div>
+                
+                <button id="mobile-save-profile" class="mobile-btn mobile-btn-primary">
+                    Guardar cambios
+                </button>
+                <button id="mobile-cancel-profile-edit" class="mobile-btn mobile-btn-secondary">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+        
+        <!-- Modal para recarga de saldo (mobile) -->
+        <div id="mobile-recharge-balance-modal" class="mobile-modal">
+            <div class="mobile-modal-content">
+                <div class="mobile-modal-header">
+                    <div class="mobile-modal-title">Recargar saldo</div>
+                    <button id="mobile-close-recharge-balance-modal" class="mobile-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-recharge-name" class="block text-sm font-medium text-white mb-1">Nombre completo</label>
+                    <input type="text" id="mobile-recharge-name" class="mobile-input" placeholder="Ingrese su nombre completo">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-recharge-phone" class="block text-sm font-medium text-white mb-1">Número de teléfono</label>
+                    <input type="tel" id="mobile-recharge-phone" class="mobile-input" placeholder="Ej: 77712345">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-recharge-amount-input" class="block text-sm font-medium text-white mb-1">Monto a recargar (Bs)</label>
+                    <input type="number" id="mobile-recharge-amount-input" class="mobile-input" placeholder="Ej: 100" min="1">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-white mb-1">Método de pago</label>
+                    <div class="qr-code-container">
+                        <img src="imagenes/qr.jpg" class="qr-code" alt="QR de pago">
+                    </div>
+                    <p class="text-sm text-center text-white mt-2">Escanee el código QR para realizar el pago</p>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-white mb-1">Comprobante de pago</label>
+                    <input type="file" id="mobile-recharge-receipt" accept="image/*" class="hidden">
+                    <label for="mobile-recharge-receipt" class="file-input-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        Seleccionar imagen
+                        <div id="mobile-recharge-file-name" class="file-name"></div>
+                    </label>
+                </div>
+                
+                <button id="mobile-confirm-recharge-balance" class="mobile-btn mobile-btn-primary flex items-center justify-center">
+                    <span id="mobile-confirm-recharge-balance-text">Enviar solicitud</span>
+                    <div id="mobile-confirm-recharge-balance-spinner" class="loading-spinner ml-2 hidden"></div>
+                </button>
+                <button id="mobile-cancel-recharge-balance" class="mobile-btn mobile-btn-secondary">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+        
+        <!-- Modal para retiro de saldo (mobile) -->
+        <div id="mobile-withdraw-balance-modal" class="mobile-modal">
+            <div class="mobile-modal-content">
+                <div class="mobile-modal-header">
+                    <div class="mobile-modal-title">Retirar saldo</div>
+                    <button id="mobile-close-withdraw-balance-modal" class="mobile-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-withdraw-name" class="block text-sm font-medium text-white mb-1">Nombre completo</label>
+                    <input type="text" id="mobile-withdraw-name" class="mobile-input" placeholder="Ingrese su nombre completo">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-withdraw-phone" class="block text-sm font-medium text-white mb-1">Número de teléfono</label>
+                    <input type="tel" id="mobile-withdraw-phone" class="mobile-input" placeholder="Ej: 77712345">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-withdraw-amount-input" class="block text-sm font-medium text-white mb-1">Monto a retirar (Bs)</label>
+                    <input type="number" id="mobile-withdraw-amount-input" class="mobile-input" placeholder="Ej: 100" min="30">
+                    <p class="text-xs text-gray-400 mt-1">Monto mínimo de retiro: 30 Bs</p>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-white mb-1">QR para recibir el pago</label>
+                    <div class="qr-code-container">
+                        <img id="mobile-user-qr" src="imagenes/qr.jpg" class="qr-code" alt="QR de pago">
+                    </div>
+                    <input type="file" id="mobile-user-qr-input" accept="image/*" class="hidden">
+                    <button id="mobile-change-qr-btn" class="mt-2 w-full py-2 px-4 rounded-lg bg-white text-gray-900 font-bold flex items-center justify-center hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-upload mr-2"></i>
+                        Subir mi QR
+                    </button>
+                    <p class="text-sm text-center text-white mt-2">Proporcione este código QR para recibir el pago</p>
+                </div>
+                
+                <button id="mobile-confirm-withdraw-balance" class="mobile-btn mobile-btn-primary flex items-center justify-center">
+                    <span id="mobile-confirm-withdraw-balance-text">Enviar solicitud</span>
+                    <div id="mobile-confirm-withdraw-balance-spinner" class="loading-spinner ml-2 hidden"></div>
+                </button>
+                <button id="mobile-cancel-withdraw-balance" class="mobile-btn mobile-btn-secondary">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Configuración con tus credenciales
+        const supabaseUrl = 'https://crictpggqzstghcdsmls.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNyaWN0cGdncXpzdGdoY2RzbWxzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE2NjMwNjAsImV4cCI6MjA3NzIzOTA2MH0.nZReCtI6xnZMbCiPJ8LryzL4mhDV_7Eskiv3NUkCLME';
+        window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
+      
+        // Configuración del bot de Telegram para transacciones
+        const TELEGRAM_BOT_TOKEN = '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY';
+        const TELEGRAM_CHAT_ID = '-4843757881';
+        
+        // Configuración del bot de Telegram para recargas
+        const RECHARGE_BOT_TOKEN = '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY';
+        const RECHARGE_CHAT_ID = '-4851584355';
+        
+        // Variables globales
+        let currentUser = null;
+        let userProfile = null;
+        let currentBalance = 0;
+        let selectedBetAmount = 10;
+
+        // Variables para el Buscaminas
+        let minesweeperBoard = [];
+        let minesweeperGameActive = false;
+        let minesweeperGameStarted = false;
+        let minesweeperFlags = 0;
+        let minesweeperMines = 10;
+        let minesweeperRevealed = 0;
+        let minesweeperTimer = 20;
+        let minesweeperTimerInterval = null;
+        let minesweeperGameTimeout = null;
+        let minesweeperDifficulty = 'easy';
+        let minesweeperBoardSize = 8;
+        let minesweeperTotalCells = 64;
+        let currentMultiplier = 1.8;
+        let currentWinAmount = 0;
+        let baseBetAmount = 0;
+        let gameProgress = 0;
+        let requiredProgress = 75;
+        let gameTimeLimit = 20;
+
+        // Funciones de utilidad
+        const formatCurrency = (amount) => {
+            return 'Bs' + parseFloat(amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        };
+        
+        const formatDate = (dateString) => {
+            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(dateString).toLocaleDateString('es-ES', options);
+        };
+        
+        const getInitials = (name) => {
+            if (!name) return '??';
+            const names = name.split(' ');
+            let initials = names[0].substring(0, 1).toUpperCase();
+            if (names.length > 1) {
+                initials += names[names.length - 1].substring(0, 1).toUpperCase();
+            }
+            return initials;
+        };
+        
+        const showToast = (message, type = 'success') => {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-4 right-4 px-4 py-2 rounded-md shadow-lg z-50 animate-fade-in ${
+                type === 'success' ? 'bg-green-600' : 'bg-red-600'
+            } text-white font-medium`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('animate-fade-in');
+                toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        };
+        
+        // Función para enviar mensaje a Telegram
+        const sendTelegramMessage = async (message) => {
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                const data = await response.json();
+                return data.ok;
+            } catch (error) {
+                console.error('Error sending Telegram message:', error);
+                return false;
+            }
+        };
+        
+        // Función para enviar solicitud de recarga a Telegram
+        const sendRechargeRequest = async (data, receiptFile) => {
+            try {
+                // Primero enviamos el mensaje con los datos
+                const messageResponse = await fetch(`https://api.telegram.org/bot${RECHARGE_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: RECHARGE_CHAT_ID,
+                        text: `
+<b>Nueva solicitud de recarga de saldo</b>
+
+👤 <b>Nombre:</b> ${data.name}
+📞 <b>Teléfono:</b> ${data.phone}
+💰 <b>Monto:</b> ${data.amount} Bs
+🆔 <b>Usuario:</b> ${currentUser.email}
+⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
+                        `,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                const messageData = await messageResponse.json();
+                
+                if (!messageData.ok) {
+                    throw new Error('Error al enviar el mensaje');
+                }
+                
+                // Si hay un comprobante, lo enviamos como foto
+                if (receiptFile) {
+                    const formData = new FormData();
+                    formData.append('chat_id', RECHARGE_CHAT_ID);
+                    formData.append('photo', receiptFile);
+                    formData.append('caption', `Comprobante de pago para ${data.name} (${data.phone}) - ${data.amount} Bs`);
+                    
+                    const photoResponse = await fetch(`https://api.telegram.org/bot${RECHARGE_BOT_TOKEN}/sendPhoto`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const photoData = await photoResponse.json();
+                    
+                    if (!photoData.ok) {
+                        console.warn('No se pudo enviar el comprobante, pero el mensaje se envió correctamente');
+                    }
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Error sending recharge request:', error);
+                return false;
+            }
+        };
+        
+        // Función para enviar solicitud de retiro a Telegram
+        const sendWithdrawRequest = async (data, qrFile) => {
+            try {
+                // Enviamos el mensaje con los datos
+                const messageResponse = await fetch(`https://api.telegram.org/bot${RECHARGE_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: RECHARGE_CHAT_ID,
+                        text: `
+<b>Nueva solicitud de retiro de saldo</b>
+
+👤 <b>Nombre:</b> ${data.name}
+📞 <b>Teléfono:</b> ${data.phone}
+💰 <b>Monto:</b> ${data.amount} Bs
+🆔 <b>Usuario:</b> ${currentUser.email}
+⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
+                        `,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                const messageData = await messageResponse.json();
+                
+                if (!messageData.ok) {
+                    throw new Error('Error al enviar el mensaje');
+                }
+                
+                // Si hay un QR personalizado, lo enviamos como foto
+                if (qrFile) {
+                    const formData = new FormData();
+                    formData.append('chat_id', RECHARGE_CHAT_ID);
+                    formData.append('photo', qrFile);
+                    formData.append('caption', `QR personalizado para ${data.name} (${data.phone}) - ${data.amount} Bs`);
+                    
+                    const photoResponse = await fetch(`https://api.telegram.org/bot${RECHARGE_BOT_TOKEN}/sendPhoto`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const photoData = await photoResponse.json();
+                    
+                    if (!photoData.ok) {
+                        console.warn('No se pudo enviar el QR, pero el mensaje se envió correctamente');
+                    }
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Error sending withdraw request:', error);
+                return false;
+            }
+        };
+        
+        // Funciones para manejar modales
+        const openModal = (modalId) => {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'invisible');
+        };
+        
+        const closeModal = (modalId) => {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            modal.classList.add('opacity-0', 'invisible');
+        };
+        
+        const openMobileModal = (modalId) => {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+        
+        const closeMobileModal = (modalId) => {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+        
+        // Funciones para cargar datos
+        const loadUserProfile = async (userId) => {
+            const { data, error } = await supabase
+                .from('user_profiles')
+                .select('*')
+                .eq('id', userId)
+                .single();
+                
+            if (error && error.code !== 'PGRST116') {
+                console.error('Error loading profile:', error);
+                return null;
+            }
+            
+            return data;
+        };
+        
+        const updateUserProfile = async (userId, updates) => {
+            const { data, error } = await supabase
+                .from('user_profiles')
+                .update(updates)
+                .eq('id', userId)
+                .select()
+                .single();
+                
+            if (error) {
+                console.error('Error updating profile:', error);
+                return null;
+            }
+            
+            return data;
+        };
+        
+        const uploadAvatar = async (userId, file) => {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${userId}.${fileExt}`;
+            const filePath = `avatars/${fileName}`;
+            
+            const { error } = await supabase.storage
+                .from('avatars')
+                .upload(filePath, file, {
+                    cacheControl: '3600',
+                    upsert: true
+                });
+                
+            if (error) {
+                console.error('Error uploading avatar:', error);
+                return null;
+            }
+            
+            const { data: { publicUrl } } = supabase.storage
+                .from('avatars')
+                .getPublicUrl(filePath);
+                
+            return publicUrl;
+        };
+        
+        const calculateBalance = async (userId) => {
+            const { data, error } = await supabase
+                .from('transactions')
+                .select('amount, type')
+                .eq('user_id', userId)
+                .eq('status', 'completed');
+                
+            if (error) {
+                console.error('Error calculating balance:', error);
+                return 0;
+            }
+            
+            let balance = 0;
+            data.forEach(transaction => {
+                if (transaction.type === 'deposit') {
+                    balance += transaction.amount;
+                } else {
+                    balance -= transaction.amount;
+                }
+            });
+            
+            return balance;
+        };
+        
+        const loadTransactions = async (userId, filter = 'all') => {
+            let query = supabase
+                .from('transactions')
+                .select('*')
+                .eq('user_id', userId)
+                .order('created_at', { ascending: false })
+                .limit(20);
+                
+            if (filter !== 'all') {
+                query = query.eq('type', filter);
+            }
+            
+            const { data, error } = await query;
+            
+            if (error) {
+                console.error('Error loading transactions:', error);
+                return [];
+            }
+            
+            return data;
+        };
+        
+        const createTransaction = async (userId, amount, type, description = '', metadata = {}) => {
+            const { data, error } = await supabase
+                .from('transactions')
+                .insert([
+                    {
+                        user_id: userId,
+                        amount,
+                        type,
+                        description,
+                        metadata,
+                        status: 'completed'
+                    }
+                ])
+                .select()
+                .single();
+                
+            if (error) {
+                console.error('Error creating transaction:', error);
+                return null;
+            }
+            
+            return data;
+        };
+        
+        const createBet = async (userId, gameType, betAmount, result, winAmount, metadata = {}) => {
+            const { data, error } = await supabase
+                .from('bets')
+                .insert([
+                    {
+                        user_id: userId,
+                        game_type: gameType,
+                        bet_amount: betAmount,
+                        result,
+                        win_amount: winAmount,
+                        metadata
+                    }
+                ])
+                .select()
+                .single();
+                
+            if (error) {
+                console.error('Error creating bet:', error);
+                return null;
+            }
+            
+            return data;
+        };
+        
+        // Funciones para el Buscaminas
+        const initializeMinesweeper = () => {
+            // Configurar dificultad
+            setMinesweeperDifficulty(minesweeperDifficulty);
+            
+            // Crear tablero vacío
+            minesweeperBoard = [];
+            for (let i = 0; i < minesweeperBoardSize; i++) {
+                minesweeperBoard[i] = [];
+                for (let j = 0; j < minesweeperBoardSize; j++) {
+                    minesweeperBoard[i][j] = {
+                        isMine: false,
+                        isRevealed: false,
+                        isFlagged: false,
+                        adjacentMines: 0
+                    };
+                }
+            }
+            
+            // Reiniciar contadores
+            minesweeperFlags = 0;
+            minesweeperRevealed = 0;
+            minesweeperTimer = gameTimeLimit;
+            minesweeperGameActive = true;
+            minesweeperGameStarted = false;
+            currentMultiplier = getMultiplierForDifficulty(minesweeperDifficulty);
+            currentWinAmount = 0;
+            gameProgress = 0;
+            
+            // Detener temporizador anterior si existe
+            if (minesweeperTimerInterval) {
+                clearInterval(minesweeperTimerInterval);
+                minesweeperTimerInterval = null;
+            }
+            
+            // Detener timeout del juego si existe
+            if (minesweeperGameTimeout) {
+                clearTimeout(minesweeperGameTimeout);
+                minesweeperGameTimeout = null;
+            }
+            
+            // Actualizar UI
+            updateMinesweeperUI();
+            renderMinesweeperBoard();
+            
+            // Deshabilitar botón de reinicio durante el juego
+            const resetButtons = document.querySelectorAll('#mobile-minesweeper-reset');
+            resetButtons.forEach(btn => {
+                if (btn) {
+                    btn.disabled = true;
+                    btn.classList.remove('hover:bg-gray-600');
+                    btn.classList.add('bg-gray-800', 'cursor-not-allowed');
+                }
+            });
+        };
+        
+        const getMultiplierForDifficulty = (difficulty) => {
+            switch (difficulty) {
+                case 'easy': return 1.8;
+                case 'medium': return 2.2;
+                case 'hard': return 3.5;
+                default: return 1.8;
+            }
+        };
+        
+        const setMinesweeperDifficulty = (difficulty) => {
+            minesweeperDifficulty = difficulty;
+            
+            switch (difficulty) {
+                case 'easy':
+                    minesweeperBoardSize = 8;
+                    minesweeperMines = 10;
+                    requiredProgress = 75;
+                    gameTimeLimit = 20;
+                    break;
+                case 'medium':
+                    minesweeperBoardSize = 10;
+                    minesweeperMines = 20;
+                    requiredProgress = 55;
+                    gameTimeLimit = 25;
+                    break;
+                case 'hard':
+                    minesweeperBoardSize = 12;
+                    minesweeperMines = 40;
+                    requiredProgress = 29;
+                    gameTimeLimit = 30;
+                    break;
+            }
+            
+            minesweeperTotalCells = minesweeperBoardSize * minesweeperBoardSize;
+            minesweeperTimer = gameTimeLimit;
+            currentMultiplier = getMultiplierForDifficulty(difficulty);
+            
+            // Actualizar botones de dificultad
+            const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+            difficultyButtons.forEach(btn => {
+                if (btn.dataset.difficulty === difficulty) {
+                    btn.classList.add('selected');
+                } else {
+                    btn.classList.remove('selected');
+                }
+            });
+            
+            // Actualizar progreso requerido en UI
+            const requiredProgressElement = document.getElementById('mobile-required-progress');
+            if (requiredProgressElement) {
+                requiredProgressElement.textContent = `${requiredProgress}%`;
+            }
+            
+            // Actualizar multiplicador en UI
+            const multiplierElement = document.getElementById('mobile-multiplier');
+            if (multiplierElement) {
+                multiplierElement.textContent = `${currentMultiplier}x`;
+            }
+        };
+        
+        const placeMines = (firstClickRow, firstClickCol) => {
+            // Colocar minas aleatoriamente, evitando la primera casilla clickeada
+            let minesPlaced = 0;
+            while (minesPlaced < minesweeperMines) {
+                const row = Math.floor(Math.random() * minesweeperBoardSize);
+                const col = Math.floor(Math.random() * minesweeperBoardSize);
+                
+                // No colocar mina en la primera casilla clickeada ni en sus alrededores
+                if ((row === firstClickRow && col === firstClickCol) || 
+                    (Math.abs(row - firstClickRow) <= 1 && Math.abs(col - firstClickCol) <= 1)) {
+                    continue;
+                }
+                
+                if (!minesweeperBoard[row][col].isMine) {
+                    minesweeperBoard[row][col].isMine = true;
+                    minesPlaced++;
+                    
+                    // Actualizar contadores de minas adyacentes
+                    for (let i = Math.max(0, row - 1); i <= Math.min(minesweeperBoardSize - 1, row + 1); i++) {
+                        for (let j = Math.max(0, col - 1); j <= Math.min(minesweeperBoardSize - 1, col + 1); j++) {
+                            if (!(i === row && j === col)) {
+                                minesweeperBoard[i][j].adjacentMines++;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        
+        const revealCell = (row, col) => {
+            // Si el juego no ha comenzado, colocar minas
+            if (!minesweeperGameStarted) {
+                // Verificar si hay saldo suficiente
+                if (selectedBetAmount > currentBalance) {
+                    showToast('Saldo insuficiente', 'error');
+                    return;
+                }
+                
+                // Crear transacción de apuesta
+                createTransaction(
+                    currentUser.id, 
+                    selectedBetAmount, 
+                    'bet', 
+                    `Apuesta en Buscaminas (Dificultad: ${minesweeperDifficulty})`
+                );
+                
+                baseBetAmount = selectedBetAmount;
+                placeMines(row, col);
+                minesweeperGameStarted = true;
+                
+                // Iniciar temporizador
+                minesweeperTimerInterval = setInterval(() => {
+                    minesweeperTimer--;
+                    updateMinesweeperUI();
+                    
+                    if (minesweeperTimer <= 0) {
+                        endMinesweeperGameAutomatically();
+                    }
+                }, 1000);
+            }
+            
+            const cell = minesweeperBoard[row][col];
+            
+            // Si la celda está marcada con bandera o ya está revelada, no hacer nada
+            if (cell.isFlagged || cell.isRevealed) {
+                return;
+            }
+            
+            // Revelar la celda
+            cell.isRevealed = true;
+            minesweeperRevealed++;
+            
+            // Si es una mina, fin del juego
+            if (cell.isMine) {
+                endMinesweeperGame(false);
+                return;
+            }
+            
+            // Calcular ganancia parcial
+            calculatePartialWin();
+            
+            // Si no hay minas adyacentes, revelar celdas adyacentes automáticamente
+            if (cell.adjacentMines === 0) {
+                for (let i = Math.max(0, row - 1); i <= Math.min(minesweeperBoardSize - 1, row + 1); i++) {
+                    for (let j = Math.max(0, col - 1); j <= Math.min(minesweeperBoardSize - 1, col + 1); j++) {
+                        if (!(i === row && j === col) && !minesweeperBoard[i][j].isRevealed) {
+                            revealCell(i, j);
+                        }
+                    }
+                }
+            }
+            
+            // Verificar si el jugador ganó
+            if (minesweeperRevealed === minesweeperTotalCells - minesweeperMines) {
+                endMinesweeperGame(true);
+            }
+            
+            // Actualizar UI
+            renderMinesweeperBoard();
+            updateMinesweeperUI();
+        };
+        
+        const calculatePartialWin = () => {
+            if (!minesweeperGameStarted) return;
+            
+            // Calcular porcentaje de progreso
+            gameProgress = (minesweeperRevealed / (minesweeperTotalCells - minesweeperMines)) * 100;
+            
+            // Calcular porcentaje de ganancia actual
+            const winPercentage = Math.round((currentMultiplier - 1) * 100);
+            
+            // Actualizar indicador de porcentaje de ganancia
+            const winPercentageElement = document.getElementById('mobile-win-percentage');
+            if (winPercentageElement) {
+                winPercentageElement.textContent = `+${winPercentage}%`;
+            }
+            
+            // Actualizar monto de apuesta
+            const betAmountElement = document.getElementById('mobile-bet-display');
+            if (betAmountElement) {
+                betAmountElement.textContent = `${baseBetAmount.toFixed(2)} Bs`;
+            }
+        };
+        
+        const endMinesweeperGameAutomatically = async () => {
+            if (!minesweeperGameActive || !minesweeperGameStarted) return;
+            
+            minesweeperGameActive = false;
+            minesweeperGameStarted = false;
+            
+            // Detener temporizador
+            if (minesweeperTimerInterval) {
+                clearInterval(minesweeperTimerInterval);
+                minesweeperTimerInterval = null;
+            }
+            
+            // Detener timeout del juego
+            if (minesweeperGameTimeout) {
+                clearTimeout(minesweeperGameTimeout);
+                minesweeperGameTimeout = null;
+            }
+            
+            // Verificar si el jugador alcanzó el progreso requerido
+            if (gameProgress >= requiredProgress) {
+                // Victoria - multiplicador según dificultad
+                const winAmount = baseBetAmount * currentMultiplier;
+                
+                // Procesar ganancia
+                await createTransaction(
+                    currentUser.id, 
+                    winAmount, 
+                    'deposit', 
+                    `Ganancia en Buscaminas (Dificultad: ${minesweeperDifficulty})`
+                );
+                
+                await createBet(
+                    currentUser.id,
+                    'minesweeper',
+                    baseBetAmount,
+                    'win',
+                    winAmount,
+                    { 
+                        difficulty: minesweeperDifficulty, 
+                        time: gameTimeLimit - minesweeperTimer,
+                        mines: minesweeperMines,
+                        multiplier: currentMultiplier,
+                        progress: gameProgress,
+                        automatic: true
+                    }
+                );
+                
+                showToast(`¡Ganaste ${winAmount.toFixed(2)} Bs en Buscaminas! (Inversión: ${baseBetAmount.toFixed(2)} Bs + Ganancia: ${(winAmount - baseBetAmount).toFixed(2)} Bs)`, 'success');
+                
+                // Mostrar resultado
+                const resultElement = document.getElementById('mobile-minesweeper-result');
+                if (resultElement) {
+                    resultElement.textContent = `¡Tiempo agotado! Ganaste ${winAmount.toFixed(2)} Bs (Inversión: ${baseBetAmount.toFixed(2)} Bs + Ganancia: ${(winAmount - baseBetAmount).toFixed(2)} Bs)`;
+                    resultElement.className = 'game-result win';
+                    resultElement.classList.remove('hidden');
+                }
+            } else {
+                // Derrota - pierde la apuesta
+                showToast(`Perdiste ${baseBetAmount.toFixed(2)} Bs en Buscaminas`, 'error');
+                
+                // Mostrar resultado
+                const resultElement = document.getElementById('mobile-minesweeper-result');
+                if (resultElement) {
+                    resultElement.textContent = '¡Tiempo agotado! No alcanzaste el progreso requerido';
+                    resultElement.className = 'game-result loss';
+                    resultElement.classList.remove('hidden');
+                }
+            }
+            
+            // Habilitar botón de reinicio
+            const resetButtons = document.querySelectorAll('#mobile-minesweeper-reset');
+            resetButtons.forEach(btn => {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.classList.add('hover:bg-gray-600');
+                    btn.classList.remove('bg-gray-800', 'cursor-not-allowed');
+                }
+            });
+            
+            // Actualizar UI
+            updateUI();
+        };
+        
+        const endMinesweeperGame = async (win) => {
+            minesweeperGameActive = false;
+            minesweeperGameStarted = false;
+            
+            // Detener temporizador
+            if (minesweeperTimerInterval) {
+                clearInterval(minesweeperTimerInterval);
+                minesweeperTimerInterval = null;
+            }
+            
+            // Detener timeout del juego
+            if (minesweeperGameTimeout) {
+                clearTimeout(minesweeperGameTimeout);
+                minesweeperGameTimeout = null;
+            }
+            
+            // Revelar todas las minas
+            for (let i = 0; i < minesweeperBoardSize; i++) {
+                for (let j = 0; j < minesweeperBoardSize; j++) {
+                    if (minesweeperBoard[i][j].isMine) {
+                        minesweeperBoard[i][j].isRevealed = true;
+                    }
+                }
+            }
+            
+            // Habilitar botón de reinicio
+            const resetButtons = document.querySelectorAll('#mobile-minesweeper-reset');
+            resetButtons.forEach(btn => {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.classList.add('hover:bg-gray-600');
+                    btn.classList.remove('bg-gray-800', 'cursor-not-allowed');
+                }
+            });
+            
+            // Actualizar UI
+            renderMinesweeperBoard();
+            
+            // Mostrar resultado
+            const resultElement = document.getElementById('mobile-minesweeper-result');
+            if (resultElement) {
+                if (win === true) {
+                    // Victoria completa - multiplicador completo
+                    const winAmount = baseBetAmount * currentMultiplier;
+                    
+                    resultElement.textContent = `¡Ganaste! ${winAmount.toFixed(2)} Bs (Inversión: ${baseBetAmount.toFixed(2)} Bs + Ganancia: ${(winAmount - baseBetAmount).toFixed(2)} Bs)`;
+                    resultElement.className = 'game-result win';
+                    resultElement.classList.remove('hidden');
+                    
+                    // Procesar ganancia completa
+                    await createTransaction(
+                        currentUser.id, 
+                        winAmount, 
+                        'deposit', 
+                        `Ganancia completa en Buscaminas (Dificultad: ${minesweeperDifficulty})`
+                    );
+                    
+                    await createBet(
+                        currentUser.id,
+                        'minesweeper',
+                        baseBetAmount,
+                        'win',
+                        winAmount,
+                        { 
+                            difficulty: minesweeperDifficulty, 
+                            time: gameTimeLimit - minesweeperTimer,
+                            mines: minesweeperMines,
+                            multiplier: currentMultiplier,
+                            progress: 100
+                        }
+                    );
+                    
+                    showToast(`¡Ganaste ${winAmount.toFixed(2)} Bs en Buscaminas! (Inversión: ${baseBetAmount.toFixed(2)} Bs + Ganancia: ${(winAmount - baseBetAmount).toFixed(2)} Bs)`, 'success');
+                    
+                } else {
+                    // Derrota
+                    resultElement.textContent = '¡Perdiste! Encontraste una mina';
+                    resultElement.className = 'game-result loss';
+                    resultElement.classList.remove('hidden');
+                    
+                    // Ya se procesó la pérdida al inicio del juego
+                    showToast(`Perdiste ${baseBetAmount.toFixed(2)} Bs en Buscaminas`, 'error');
+                }
+            }
+            
+            // Actualizar UI
+            updateUI();
+        };
+        
+        const updateMinesweeperUI = () => {
+            // Actualizar contadores en móvil
+            const mobileMinesCount = document.getElementById('mobile-mines-count');
+            const mobileProgressCount = document.getElementById('mobile-progress-count');
+            const mobileTimeCount = document.getElementById('mobile-time-count');
+            const mobileMultiplier = document.getElementById('mobile-multiplier');
+            const progressFill = document.getElementById('mobile-progress-fill');
+            const progressStats = document.querySelectorAll('.minesweeper-stats-value');
+            
+            if (mobileMinesCount) mobileMinesCount.textContent = minesweeperMines - minesweeperFlags;
+            if (mobileProgressCount) mobileProgressCount.textContent = `${Math.round(gameProgress)}%`;
+            if (mobileTimeCount) mobileTimeCount.textContent = minesweeperTimer;
+            if (mobileMultiplier) mobileMultiplier.textContent = `${currentMultiplier}x`;
+            
+            // Actualizar barra de progreso
+            if (progressFill) {
+                progressFill.style.width = `${gameProgress}%`;
+                if (gameProgress >= requiredProgress) {
+                    progressFill.classList.add('achieved');
+                    // Cambiar color del texto de progreso a verde
+                    progressStats.forEach(stat => {
+                        if (stat.textContent.includes('%')) {
+                            stat.classList.add('progress-achieved');
+                        }
+                    });
+                } else {
+                    progressFill.classList.remove('achieved');
+                    progressStats.forEach(stat => {
+                        stat.classList.remove('progress-achieved');
+                    });
+                }
+            }
+        };
+        
+        const renderMinesweeperBoard = () => {
+            // Renderizar en móvil
+            const mobileBoard = document.getElementById('mobile-minesweeper-board');
+            if (mobileBoard) {
+                mobileBoard.innerHTML = '';
+                mobileBoard.style.gridTemplateColumns = `repeat(${minesweeperBoardSize}, 1fr)`;
+                
+                for (let i = 0; i < minesweeperBoardSize; i++) {
+                    for (let j = 0; j < minesweeperBoardSize; j++) {
+                        const cell = minesweeperBoard[i][j];
+                        const cellElement = document.createElement('div');
+                        cellElement.className = 'minesweeper-cell';
+                        cellElement.dataset.row = i;
+                        cellElement.dataset.col = j;
+                        
+                        if (cell.isRevealed) {
+                            cellElement.classList.add('revealed');
+                            if (cell.isMine) {
+                                cellElement.classList.add('mine');
+                                cellElement.innerHTML = '<i class="fas fa-bomb"></i>';
+                            } else if (cell.adjacentMines > 0) {
+                                cellElement.classList.add(`number-${cell.adjacentMines}`);
+                                cellElement.textContent = cell.adjacentMines;
+                            }
+                        } else if (cell.isFlagged) {
+                            cellElement.classList.add('flag');
+                            cellElement.innerHTML = '<i class="fas fa-flag"></i>';
+                        }
+                        
+                        cellElement.addEventListener('click', () => handleCellClick(i, j));
+                        
+                        mobileBoard.appendChild(cellElement);
+                    }
+                }
+            }
+        };
+        
+        const handleCellClick = (row, col) => {
+            if (!minesweeperGameActive) {
+                return;
+            }
+            
+            revealCell(row, col);
+        };
+        
+        // Funciones para renderizar datos
+        const renderTransactions = (transactions) => {
+            const mobileFullContainer = document.getElementById('mobile-transactions-full-list');
+            
+            if (transactions.length === 0) {
+                const emptyState = `
+                    <div class="mobile-empty-state">
+                        <div class="mobile-empty-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <h3 class="font-medium text-white">No hay transacciones</h3>
+                        <p class="mobile-empty-text">No se encontraron transacciones recientes</p>
+                    </div>
+                `;
+                
+                if (mobileFullContainer) mobileFullContainer.innerHTML = emptyState;
+                return;
+            }
+            
+            const mobileFullHtml = transactions.map(transaction => {
+                const isPositive = transaction.type === 'deposit';
+                const iconColor = isPositive ? 'bg-green-500 text-white' : 'bg-red-500 text-white';
+                const textColor = isPositive ? 'text-green-400' : 'text-red-400';
+                const sign = isPositive ? '+' : '-';
+                const typeNames = {
+                    'deposit': 'Ingreso',
+                    'withdrawal': 'Retiro',
+                    'bet': 'Apuesta'
+                };
+                
+                return `
+                    <div class="mobile-transaction-item">
+                        <div class="mobile-transaction-icon ${iconColor}">
+                            <i class="fas ${isPositive ? 'fa-arrow-down' : 'fa-arrow-up'}"></i>
+                        </div>
+                        <div class="mobile-transaction-details">
+                            <div class="mobile-transaction-title">${transaction.description || typeNames[transaction.type] || transaction.type}</div>
+                            <div class="mobile-transaction-date">${formatDate(transaction.created_at)}</div>
+                        </div>
+                        <div class="mobile-transaction-amount ${textColor}">${sign}${transaction.amount.toFixed(2)}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            if (mobileFullContainer) mobileFullContainer.innerHTML = mobileFullHtml;
+        };
+        
+        const updateUI = async () => {
+            if (!currentUser) return;
+            
+            // Actualizar balance
+            currentBalance = await calculateBalance(currentUser.id);
+            const balanceElements = document.querySelectorAll('#mobile-balance');
+            balanceElements.forEach(el => {
+                if (el) el.textContent = formatCurrency(currentBalance);
+            });
+            
+            // Cargar y renderizar transacciones
+            const mobileFilter = document.getElementById('mobile-transactions-filter')?.value || 'all';
+            
+            const transactions = await loadTransactions(currentUser.id, mobileFilter);
+            renderTransactions(transactions);
+            
+            // Actualizar perfil móvil
+            if (document.getElementById('mobile-user-name')) {
+                document.getElementById('mobile-user-name').textContent = userProfile?.full_name || currentUser.email.split('@')[0];
+                document.getElementById('mobile-user-email').textContent = currentUser.email;
+                document.getElementById('mobile-profile-phone').textContent = userProfile?.phone || 'No especificado';
+                
+                const createdAt = new Date(userProfile.created_at || currentUser.created_at);
+                document.getElementById('mobile-profile-created-at').textContent = createdAt.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Configurar avatar móvil
+                const mobileAvatarElement = document.getElementById('mobile-user-avatar');
+                const mobileInitialsElement = document.getElementById('mobile-user-initials');
+                
+                if (userProfile?.avatar_url) {
+                    mobileAvatarElement.innerHTML = `<img src="${userProfile.avatar_url}" alt="Avatar">`;
+                    mobileInitialsElement.textContent = '';
+                } else {
+                    const initials = getInitials(userProfile?.full_name || currentUser.email);
+                    mobileInitialsElement.textContent = initials;
+                }
+            }
+        };
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Ajustar altura para mobile (evitar problemas con la barra de navegación en iOS)
+            const setVh = () => {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            };
+            
+            setVh();
+            window.addEventListener('resize', setVh);
+            
+            // Verificar sesión
+            const { data: { session }, error } = await supabase.auth.getSession();
+            
+            if (!session) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            currentUser = session.user;
+            
+            // Cargar perfil de usuario
+            userProfile = await loadUserProfile(currentUser.id);
+            
+            if (!userProfile) {
+                // Si no hay perfil, redirigir al login para completar registro
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Inicializar Buscaminas
+            initializeMinesweeper();
+            
+            // Actualizar UI con datos del usuario
+            const nameElements = document.querySelectorAll('#mobile-user-name');
+            const emailElements = document.querySelectorAll('#mobile-user-email');
+            const phoneElements = document.querySelectorAll('#mobile-profile-phone');
+            const dateElements = document.querySelectorAll('#mobile-profile-created-at');
+            const avatarElements = document.querySelectorAll('#mobile-user-avatar');
+            const initialsElements = document.querySelectorAll('#mobile-user-initials');
+            
+            nameElements.forEach(el => {
+                if (el) el.textContent = userProfile?.full_name || currentUser.email.split('@')[0];
+            });
+            
+            emailElements.forEach(el => {
+                if (el) el.textContent = currentUser.email;
+            });
+            
+            phoneElements.forEach(el => {
+                if (el) el.textContent = userProfile?.phone || 'No especificado';
+            });
+            
+            const createdAt = new Date(userProfile.created_at || currentUser.created_at);
+            dateElements.forEach(el => {
+                if (el) el.textContent = createdAt.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            });
+            
+            // Configurar avatar
+            avatarElements.forEach((avatarElement, index) => {
+                if (avatarElement) {
+                    const initialsElement = initialsElements[index];
+                    if (userProfile?.avatar_url) {
+                        avatarElement.innerHTML = `<img src="${userProfile.avatar_url}" alt="Avatar">`;
+                        if (initialsElement) initialsElement.textContent = '';
+                    } else {
+                        const initials = getInitials(userProfile?.full_name || currentUser.email);
+                        if (initialsElement) initialsElement.textContent = initials;
+                    }
+                }
+            });
+            
+            // Navegación móvil
+            const navItems = document.querySelectorAll('.nav-item');
+            const views = ['games', 'transactions', 'profile'];
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const view = item.dataset.view;
+                    
+                    // Actualizar navegación
+                    navItems.forEach(navItem => {
+                        navItem.classList.remove('active');
+                    });
+                    item.classList.add('active');
+                    
+                    // Actualizar vista
+                    views.forEach(v => {
+                        const element = document.getElementById(`mobile-${v}-view`);
+                        if (element) {
+                            element.classList.add('hidden');
+                        }
+                    });
+                    
+                    const viewElement = document.getElementById(`mobile-${view}-view`);
+                    if (viewElement) {
+                        viewElement.classList.remove('hidden');
+                    }
+                    
+                    // Actualizar título
+                    const titleMap = {
+                        'games': 'Juegos',
+                        'transactions': 'Transacciones',
+                        'profile': 'Perfil'
+                    };
+                    
+                    const titleElement = document.getElementById('mobile-header-title');
+                    if (titleElement) {
+                        titleElement.textContent = titleMap[view];
+                    }
+                });
+            });
+            
+            // Filtro de transacciones
+            const filterElements = document.querySelectorAll('#mobile-transactions-filter');
+            filterElements.forEach(filter => {
+                if (filter) {
+                    filter.addEventListener('change', updateUI);
+                }
+            });
+            
+            // Botones de logout
+            const logoutButtons = document.querySelectorAll('#mobile-logout-btn');
+            logoutButtons.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    await supabase.auth.signOut();
+                    window.location.href = 'index.html';
+                });
+            });
+            
+            // Modal de perfil
+            const editProfileButtons = document.querySelectorAll('#mobile-edit-profile-btn');
+            editProfileButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const fullNameElements = document.querySelectorAll('#mobile-full-name');
+                    fullNameElements.forEach(el => {
+                        if (el) el.value = userProfile?.full_name || '';
+                    });
+                    
+                    const avatarPreviewElements = document.querySelectorAll('#mobile-avatar-preview');
+                    avatarPreviewElements.forEach(avatarPreview => {
+                        if (avatarPreview) {
+                            if (userProfile?.avatar_url) {
+                                avatarPreview.innerHTML = `<img src="${userProfile.avatar_url}" alt="Avatar">`;
+                            } else {
+                                avatarPreview.textContent = getInitials(userProfile?.full_name || currentUser.email);
+                            }
+                        }
+                    });
+                    
+                    openMobileModal('mobile-profile-modal');
+                });
+            });
+            
+            // Cerrar modales de perfil
+            const closeProfileButtons = document.querySelectorAll('#mobile-close-profile-modal, #mobile-cancel-profile-edit');
+            closeProfileButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    closeMobileModal('mobile-profile-modal');
+                });
+            });
+            
+            // Cambiar avatar
+            const avatarInputs = document.querySelectorAll('#mobile-avatar-input');
+            const changeAvatarButtons = document.querySelectorAll('#mobile-change-avatar-btn');
+            
+            changeAvatarButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('mobile-avatar-input').click();
+                });
+            });
+            
+            avatarInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const preview = document.getElementById('mobile-avatar-preview');
+                    
+                    if (this.files && this.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            preview.innerHTML = `<img src="${e.target.result}" alt="Avatar">`;
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+            });
+            
+            // Guardar perfil
+            const saveProfileButtons = document.querySelectorAll('#mobile-save-profile');
+            saveProfileButtons.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const fullName = document.getElementById('mobile-full-name').value;
+                    
+                    const updates = { full_name: fullName };
+                    
+                    const fileInput = document.getElementById('mobile-avatar-input');
+                    if (fileInput.files.length > 0) {
+                        const publicUrl = await uploadAvatar(currentUser.id, fileInput.files[0]);
+                        if (publicUrl) updates.avatar_url = publicUrl;
+                    }
+                    
+                    const updatedProfile = await updateUserProfile(currentUser.id, updates);
+                    if (updatedProfile) {
+                        userProfile = updatedProfile;
+                        
+                        // Actualizar nombre en todas las instancias
+                        const nameElements = document.querySelectorAll('#mobile-user-name');
+                        nameElements.forEach(el => {
+                            if (el) el.textContent = userProfile.full_name;
+                        });
+                        
+                        // Actualizar avatar en todas las instancias
+                        const avatarElements = document.querySelectorAll('#mobile-user-avatar, #mobile-avatar-preview');
+                        const initialsElements = document.querySelectorAll('#mobile-user-initials');
+                        
+                        avatarElements.forEach((avatarElement, index) => {
+                            if (avatarElement) {
+                                if (userProfile.avatar_url) {
+                                    avatarElement.innerHTML = `<img src="${userProfile.avatar_url}" alt="Avatar">`;
+                                    if (initialsElements[index]) initialsElements[index].textContent = '';
+                                } else {
+                                    const initials = getInitials(userProfile.full_name);
+                                    if (initialsElements[index]) initialsElements[index].textContent = initials;
+                                }
+                            }
+                        });
+                        
+                        showToast('Perfil actualizado correctamente');
+                        
+                        closeMobileModal('mobile-profile-modal');
+                    } else {
+                        showToast('Error al actualizar el perfil', 'error');
+                    }
+                });
+            });
+            
+            // Botón para recargar saldo
+            const rechargeBalanceButtons = document.querySelectorAll('#mobile-recharge-balance-btn');
+            rechargeBalanceButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Limpiar formulario
+                    const nameInputs = document.querySelectorAll('#mobile-recharge-name');
+                    const phoneInputs = document.querySelectorAll('#mobile-recharge-phone');
+                    const amountInputs = document.querySelectorAll('#mobile-recharge-amount-input');
+                    const receiptInputs = document.querySelectorAll('#mobile-recharge-receipt');
+                    const fileNameElements = document.querySelectorAll('#mobile-recharge-file-name');
+                    
+                    nameInputs.forEach(input => {
+                        if (input) input.value = userProfile?.full_name || '';
+                    });
+                    
+                    phoneInputs.forEach(input => {
+                        if (input) input.value = userProfile?.phone || '';
+                    });
+                    
+                    amountInputs.forEach(input => {
+                        if (input) input.value = '';
+                    });
+                    
+                    receiptInputs.forEach(input => {
+                        if (input) input.value = '';
+                    });
+                    
+                    fileNameElements.forEach(el => {
+                        if (el) el.textContent = '';
+                    });
+                    
+                    openMobileModal('mobile-recharge-balance-modal');
+                });
+            });
+            
+            // Botón para retirar saldo
+            const withdrawBalanceButtons = document.querySelectorAll('#mobile-withdraw-balance-btn');
+            withdrawBalanceButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Limpiar formulario
+                    const nameInputs = document.querySelectorAll('#mobile-withdraw-name');
+                    const phoneInputs = document.querySelectorAll('#mobile-withdraw-phone');
+                    const amountInputs = document.querySelectorAll('#mobile-withdraw-amount-input');
+                    
+                    nameInputs.forEach(input => {
+                        if (input) input.value = userProfile?.full_name || '';
+                    });
+                    
+                    phoneInputs.forEach(input => {
+                        if (input) input.value = userProfile?.phone || '';
+                    });
+                    
+                    amountInputs.forEach(input => {
+                        if (input) input.value = '';
+                    });
+                    
+                    openMobileModal('mobile-withdraw-balance-modal');
+                });
+            });
+            
+            // Cerrar modales de recarga de saldo
+            const closeRechargeBalanceButtons = document.querySelectorAll('#mobile-close-recharge-balance-modal, #mobile-cancel-recharge-balance');
+            closeRechargeBalanceButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    closeMobileModal('mobile-recharge-balance-modal');
+                });
+            });
+            
+            // Cerrar modales de retiro de saldo
+            const closeWithdrawBalanceButtons = document.querySelectorAll('#mobile-close-withdraw-balance-modal, #mobile-cancel-withdraw-balance');
+            closeWithdrawBalanceButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    closeMobileModal('mobile-withdraw-balance-modal');
+                });
+            });
+            
+            // Manejar selección de archivo de comprobante
+            const receiptInputs = document.querySelectorAll('#mobile-recharge-receipt');
+            receiptInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const fileNameElement = document.getElementById('mobile-recharge-file-name');
+                    
+                    if (this.files && this.files[0]) {
+                        fileNameElement.textContent = this.files[0].name;
+                    } else {
+                        fileNameElement.textContent = '';
+                    }
+                });
+            });
+            
+            // Manejar selección de QR personalizado
+            const qrInputs = document.querySelectorAll('#mobile-user-qr-input');
+            qrInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const qrImage = document.getElementById('mobile-user-qr');
+                    
+                    if (this.files && this.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            qrImage.src = e.target.result;
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+            });
+            
+            // Botones para cambiar QR
+            const changeQrButtons = document.querySelectorAll('#mobile-change-qr-btn');
+            changeQrButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('mobile-user-qr-input').click();
+                });
+            });
+            
+            // Confirmar solicitud de recarga de saldo
+            const confirmRechargeBalanceButtons = document.querySelectorAll('#mobile-confirm-recharge-balance');
+            confirmRechargeBalanceButtons.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const name = document.getElementById('mobile-recharge-name').value;
+                    const phone = document.getElementById('mobile-recharge-phone').value;
+                    const amount = document.getElementById('mobile-recharge-amount-input').value;
+                    const receiptInput = document.getElementById('mobile-recharge-receipt');
+                    const receiptFile = receiptInput.files[0];
+                    
+                    if (!name) {
+                        showToast('Ingresa tu nombre completo', 'error');
+                        return;
+                    }
+                    
+                    if (!phone || phone.length < 7) {
+                        showToast('Ingresa un número de teléfono válido', 'error');
+                        return;
+                    }
+                    
+                    if (!amount || parseFloat(amount) <= 0) {
+                        showToast('Ingresa un monto válido', 'error');
+                        return;
+                    }
+                    
+                    if (!receiptFile) {
+                        showToast('Selecciona un comprobante de pago', 'error');
+                        return;
+                    }
+                    
+                    // Mostrar spinner de carga
+                    const confirmText = document.getElementById('mobile-confirm-recharge-balance-text');
+                    const confirmSpinner = document.getElementById('mobile-confirm-recharge-balance-spinner');
+                    
+                    btn.disabled = true;
+                    if (confirmText) confirmText.textContent = 'Enviando...';
+                    if (confirmSpinner) confirmSpinner.classList.remove('hidden');
+                    
+                    try {
+                        // Enviar solicitud al bot de Telegram para recargas
+                        const rechargeData = {
+                            name,
+                            phone,
+                            amount,
+                            email: currentUser.email
+                        };
+                        
+                        const success = await sendRechargeRequest(rechargeData, receiptFile);
+                        
+                        if (success) {
+                            showToast('Solicitud de recarga enviada. Revisaremos tu comprobante pronto.');
+                            
+                            closeMobileModal('mobile-recharge-balance-modal');
+                        } else {
+                            throw new Error('Error al enviar la solicitud');
+                        }
+                    } catch (error) {
+                        console.error('Error en el proceso de recarga de saldo:', error);
+                        showToast('Error al enviar la solicitud', 'error');
+                    } finally {
+                        // Restaurar estado del botón
+                        btn.disabled = false;
+                        if (confirmText) confirmText.textContent = 'Enviar solicitud';
+                        if (confirmSpinner) confirmSpinner.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Confirmar solicitud de retiro de saldo
+            const confirmWithdrawBalanceButtons = document.querySelectorAll('#mobile-confirm-withdraw-balance');
+            confirmWithdrawBalanceButtons.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const name = document.getElementById('mobile-withdraw-name').value;
+                    const phone = document.getElementById('mobile-withdraw-phone').value;
+                    const amount = parseFloat(document.getElementById('mobile-withdraw-amount-input').value);
+                    const qrInput = document.getElementById('mobile-user-qr-input');
+                    const qrFile = qrInput.files[0];
+                    
+                    if (!name) {
+                        showToast('Ingresa tu nombre completo', 'error');
+                        return;
+                    }
+                    
+                    if (!phone || phone.length < 7) {
+                        showToast('Ingresa un número de teléfono válido', 'error');
+                        return;
+                    }
+                    
+                    if (!amount || amount <= 0) {
+                        showToast('Ingresa un monto válido', 'error');
+                        return;
+                    }
+                    
+                    // Verificar monto mínimo de retiro (30 Bs)
+                    if (amount < 30) {
+                        showToast('El monto mínimo de retiro es 30 Bs', 'error');
+                        return;
+                    }
+                    
+                    // Verificar saldo suficiente
+                    if (amount > currentBalance) {
+                        showToast('Saldo insuficiente para realizar este retiro', 'error');
+                        return;
+                    }
+                    
+                    // Mostrar spinner de carga
+                    const confirmText = document.getElementById('mobile-confirm-withdraw-balance-text');
+                    const confirmSpinner = document.getElementById('mobile-confirm-withdraw-balance-spinner');
+                    
+                    btn.disabled = true;
+                    if (confirmText) confirmText.textContent = 'Enviando...';
+                    if (confirmSpinner) confirmSpinner.classList.remove('hidden');
+                    
+                    try {
+                        // Enviar solicitud al bot de Telegram para retiros
+                        const withdrawData = {
+                            name,
+                            phone,
+                            amount,
+                            email: currentUser.email
+                        };
+                        
+                        const success = await sendWithdrawRequest(withdrawData, qrFile);
+                        
+                        if (success) {
+                            // Crear transacción de retiro
+                            await createTransaction(
+                                currentUser.id, 
+                                amount, 
+                                'withdrawal', 
+                                `Retiro de saldo solicitado`
+                            );
+                            
+                            showToast('Solicitud de retiro enviada. Procesaremos tu solicitud pronto.');
+                            
+                            closeMobileModal('mobile-withdraw-balance-modal');
+                            
+                            // Actualizar UI
+                            updateUI();
+                        } else {
+                            throw new Error('Error al enviar la solicitud');
+                        }
+                    } catch (error) {
+                        console.error('Error en el proceso de retiro de saldo:', error);
+                        showToast('Error al enviar la solicitud', 'error');
+                    } finally {
+                        // Restaurar estado del botón
+                        btn.disabled = false;
+                        if (confirmText) confirmText.textContent = 'Enviar solicitud';
+                        if (confirmSpinner) confirmSpinner.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Configuración del Buscaminas
+            
+            // Botones de dificultad
+            const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+            difficultyButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const difficulty = btn.dataset.difficulty;
+                    setMinesweeperDifficulty(difficulty);
+                    initializeMinesweeper();
+                });
+            });
+            
+            // Botones de reinicio
+            const resetButtons = document.querySelectorAll('#mobile-minesweeper-reset');
+            resetButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    initializeMinesweeper();
+                });
+            });
+            
+            // Manejo del campo de apuesta
+            const betInput = document.getElementById('mobile-bet-amount-input');
+            if (betInput) {
+                betInput.addEventListener('input', () => {
+                    selectedBetAmount = parseFloat(betInput.value) || 0;
+                    const betDisplay = document.getElementById('mobile-bet-display');
+                    if (betDisplay) {
+                        betDisplay.textContent = `${selectedBetAmount.toFixed(2)} Bs`;
+                    }
+                });
+            }
+            
+            // Cargar datos iniciales
+            updateUI();
+        });
+    </script>
+</body>
+</html>
