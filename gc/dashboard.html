@@ -27,855 +27,685 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
             color: #f1f5f9;
-            padding-top: var(--safe-area-inset-top);
-            padding-bottom: var(--safe-area-inset-bottom);
             -webkit-tap-highlight-color: transparent;
+            overflow: hidden;
         }
         
         /* Estilo de aplicación móvil */
-        @media (max-width: 768px) {
-            body {
-                background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-                max-width: 100vw;
-                overflow-x: hidden;
-            }
-            
-            main {
-                padding-left: 0;
-                padding-right: 0;
-            }
-            
-            .mobile-app-container {
-                max-width: 100%;
-                margin: 0 auto;
-                position: relative;
-                height: 100vh;
-                height: calc(var(--vh, 1vh) * 100);
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
-            }
-            
-            .mobile-content {
-                flex: 1;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                padding-bottom: 60px; /* Espacio para la barra de navegación */
-            }
-            
-            .mobile-bottom-nav {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 60px;
-                background: rgba(15, 15, 15, 0.95);
-                backdrop-filter: blur(20px);
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
-                display: flex;
-                z-index: 50;
-                padding-bottom: var(--safe-area-inset-bottom);
-            }
-            
-            .nav-item {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                color: #9ca3af;
-                font-size: 10px;
-                text-decoration: none;
-                transition: all 0.2s;
-            }
-            
-            .nav-item i {
-                font-size: 20px;
-                margin-bottom: 4px;
-            }
-            
-            .nav-item.active {
-                color: #ffffff;
-                background: rgba(255, 255, 255, 0.1);
-            }
-            
-            .mobile-header {
-                position: sticky;
-                top: 0;
-                z-index: 40;
-                background: rgba(15, 15, 15, 0.95);
-                backdrop-filter: blur(20px);
-                padding: 12px 16px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding-top: calc(12px + var(--safe-area-inset-top));
-            }
-            
-            .mobile-header-title {
-                font-size: 18px;
-                font-weight: 600;
-                color: #ffffff;
-            }
-            
-            .mobile-header-actions {
-                display: flex;
-                align-items: center;
-            }
-            
-            .mobile-card {
-                background: rgba(30, 30, 30, 0.8);
-                backdrop-filter: blur(20px);
-                border-radius: 16px;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-                margin: 16px;
-                overflow: hidden;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .mobile-section-title {
-                font-size: 16px;
-                font-weight: 600;
-                color: #ffffff;
-                margin: 16px 16px 8px;
-            }
-            
-            .mobile-action-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-                padding: 12px;
-                border-radius: 12px;
-                background: rgba(30, 30, 30, 0.8);
-                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-                transition: all 0.2s;
-            }
-            
-            .mobile-action-btn i {
-                width: 40px;
-                height: 40px;
-                border-radius: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 18px;
-                margin-bottom: 8px;
-                color: white;
-            }
-            
-            .mobile-action-btn span {
-                font-size: 12px;
-                font-weight: 500;
-                color: #e5e7eb;
-            }
-            
-            .mobile-transaction-item {
-                display: flex;
-                align-items: center;
-                padding: 12px 16px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .mobile-transaction-icon {
-                width: 40px;
-                height: 40px;
-                border-radius: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-right: 12px;
-                font-size: 18px;
-            }
-            
-            .mobile-transaction-details {
-                flex: 1;
-            }
-            
-            .mobile-transaction-title {
-                font-size: 14px;
-                font-weight: 500;
-                color: #f9fafb;
-                margin-bottom: 2px;
-            }
-            
-            .mobile-transaction-date {
-                font-size: 12px;
-                color: #9ca3af;
-            }
-            
-            .mobile-transaction-amount {
-                font-size: 14px;
-                font-weight: 600;
-            }
-            
-            .mobile-tabs {
-                display: flex;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                margin: 0 16px;
-            }
-            
-            .mobile-tab {
-                flex: 1;
-                text-align: center;
-                padding: 12px 0;
-                font-size: 14px;
-                font-weight: 500;
-                color: #9ca3af;
-                position: relative;
-            }
-            
-            .mobile-tab.active {
-                color: #ffffff;
-            }
-            
-            .mobile-tab.active::after {
-                content: '';
-                position: absolute;
-                bottom: -1px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 40%;
-                height: 2px;
-                background: #ffffff;
-                border-radius: 2px;
-            }
-            
-            .mobile-modal {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0, 0, 0, 0.8);
-                z-index: 100;
-                display: flex;
-                align-items: flex-end;
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s;
-            }
-            
-            .mobile-modal.active {
-                opacity: 1;
-                visibility: visible;
-            }
-            
-            .mobile-modal-content {
-                background: rgba(30, 30, 30, 0.95);
-                backdrop-filter: blur(20px);
-                width: 100%;
-                border-radius: 24px 24px 0 0;
-                padding: 24px;
-                transform: translateY(100%);
-                transition: all 0.3s;
-                max-height: 90vh;
-                overflow-y: auto;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .mobile-modal.active .mobile-modal-content {
-                transform: translateY(0);
-            }
-            
-            .mobile-modal-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 20px;
-            }
-            
-            .mobile-modal-title {
-                font-size: 18px;
-                font-weight: 600;
-                color: #ffffff;
-            }
-            
-            .mobile-modal-close {
-                color: #9ca3af;
-                font-size: 20px;
-            }
-            
-            .mobile-input {
-                width: 100%;
-                padding: 14px 16px;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                border-radius: 12px;
-                font-size: 16px;
-                margin-bottom: 16px;
-                background: rgba(15, 15, 15, 0.6);
-                color: #f9fafb;
-            }
-            
-            .mobile-input:focus {
-                border-color: #ffffff;
-                outline: none;
-                background: rgba(15, 15, 15, 0.8);
-            }
-            
-            .mobile-btn {
-                width: 100%;
-                padding: 14px;
-                border-radius: 12px;
-                font-size: 16px;
-                font-weight: 500;
-                text-align: center;
-                margin-top: 8px;
-            }
-            
-            .mobile-btn-primary {
-                background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
-                color: #1a1a1a;
-                font-weight: 600;
-            }
-            
-            .mobile-btn-secondary {
-                background: rgba(255, 255, 255, 0.1);
-                color: #e5e7eb;
-            }
-            
-            .mobile-operator-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 12px;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                border-radius: 12px;
-                margin-bottom: 8px;
-            }
-            
-            .mobile-operator-btn.selected {
-                border-color: #ffffff;
-                background: rgba(255, 255, 255, 0.1);
-                color: #ffffff;
-            }
-            
-            .mobile-avatar {
-                width: 80px;
-                height: 80px;
-                border-radius: 50%;
-                background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 24px;
-                font-weight: 600;
-                color: #1a1a1a;
-                margin: 0 auto 16px;
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .mobile-avatar img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-            
-            .mobile-profile-item {
-                display: flex;
-                justify-content: space-between;
-                padding: 12px 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .mobile-profile-label {
-                color: #9ca3af;
-                font-size: 14px;
-            }
-            
-            .mobile-profile-value {
-                color: #f9fafb;
-                font-weight: 500;
-                font-size: 14px;
-            }
-            
-            .mobile-balance-card {
-                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-                color: #ffffff;
-                border-radius: 20px;
-                padding: 24px;
-                margin: 16px;
-                position: relative;
-                overflow: hidden;
-                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .mobile-balance-label {
-                font-size: 14px;
-                color: rgba(255, 255, 255, 0.7);
-                margin-bottom: 4px;
-            }
-            
-            .mobile-balance-amount {
-                font-size: 32px;
-                font-weight: 800;
-                margin-bottom: 20px;
-            }
-            
-            .mobile-balance-footer {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            .mobile-balance-wallet {
-                font-size: 12px;
-                color: rgba(255, 255, 255, 0.7);
-            }
-            
-            .mobile-balance-icon {
-                width: 36px;
-                height: 36px;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.1);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            .mobile-empty-state {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                padding: 40px 16px;
-                text-align: center;
-            }
-            
-            .mobile-empty-icon {
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.1);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-bottom: 16px;
-                color: #9ca3af;
-                font-size: 24px;
-            }
-            
-            .mobile-empty-text {
-                color: #9ca3af;
-                font-size: 14px;
-                margin-top: 8px;
-            }
-            
-            /* Estilos para el Buscaminas */
-            .game-card {
-                background: rgba(30, 30, 30, 0.8);
-                backdrop-filter: blur(20px);
-                border-radius: 20px;
-                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-                overflow: hidden;
-                margin-bottom: 16px;
-                transition: all 0.3s;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .game-header {
-                padding: 20px;
-                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-                color: #ffffff;
-                display: flex;
-                align-items: center;
-            }
-            
-            .game-icon {
-                width: 50px;
-                height: 50px;
-                border-radius: 12px;
-                background: rgba(255, 255, 255, 0.1);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-right: 12px;
-                font-size: 20px;
-                color: #ffffff;
-            }
-            
-            .game-title {
-                font-size: 20px;
-                font-weight: 700;
-            }
-            
-            .game-description {
-                font-size: 14px;
-                opacity: 0.9;
-            }
-            
-            .game-content {
-                padding: 16px;
-            }
-            
-            .bet-amounts {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-                margin-bottom: 16px;
-            }
-            
-            .bet-amount {
-                padding: 16px;
-                border: 2px solid rgba(255, 255, 255, 0.2);
-                border-radius: 12px;
-                text-align: center;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.2s;
-                background: rgba(255, 255, 255, 0.05);
-                color: #e5e7eb;
-            }
-            
-            .bet-amount.selected {
-                border-color: #ffffff;
-                background: rgba(255, 255, 255, 0.1);
-                color: #ffffff;
-                transform: scale(1.05);
-            }
-            
-            .bet-button {
-                width: 100%;
-                padding: 16px;
-                border-radius: 12px;
-                font-size: 16px;
-                font-weight: 700;
-                text-align: center;
-                background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
-                color: #1a1a1a;
-                border: none;
-                cursor: pointer;
-                transition: all 0.2s;
-            }
-            
-            .bet-button:disabled {
-                background: #4b5563;
-                cursor: not-allowed;
-            }
-            
-            .bet-button:hover:not(:disabled) {
-                transform: translateY(-2px);
-                box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
-            }
-            
-            .game-result {
-                text-align: center;
-                padding: 20px;
-                margin-top: 16px;
-                border-radius: 16px;
-                font-weight: 700;
-                font-size: 18px;
-            }
-            
-            .game-result.win {
-                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                color: white;
-            }
-            
-            .game-result.loss {
-                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-                color: white;
-            }
-            
-            /* Estilos para el tablero de Buscaminas */
-            .minesweeper-container {
-                padding: 12px;
-            }
-            
-            .minesweeper-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 12px;
-            }
-            
-            .minesweeper-timer {
-                background: rgba(15, 15, 15, 0.6);
-                border-radius: 12px;
-                padding: 6px 10px;
-                font-size: 12px;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                color: #ffffff;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .minesweeper-timer i {
-                margin-right: 6px;
-                font-size: 10px;
-            }
-            
-            .minesweeper-info {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 12px;
-                background: rgba(15, 15, 15, 0.6);
-                border-radius: 12px;
-                padding: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .minesweeper-stats {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .minesweeper-stats-label {
-                font-size: 9px;
-                color: #9ca3af;
-                margin-bottom: 2px;
-            }
-            
-            .minesweeper-stats-value {
-                font-size: 14px;
-                font-weight: 800;
-                color: #f9fafb;
-            }
-            
-            .minesweeper-stats-value.progress-achieved {
-                color: #10b981;
-            }
-            
-            .minesweeper-board {
-                display: grid;
-                grid-template-columns: repeat(8, 1fr);
-                gap: 4px;
-                margin-bottom: 12px;
-            }
-            
-            .minesweeper-cell {
-                aspect-ratio: 1;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
-                border-radius: 6px;
-                font-weight: 700;
-                cursor: pointer;
-                transition: all 0.2s;
-                user-select: none;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                font-size: 12px;
-            }
-            
-            .minesweeper-cell:hover {
-                background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-                transform: scale(1.05);
-            }
-            
-            .minesweeper-cell.revealed {
-                background: rgba(255, 255, 255, 0.1);
-                cursor: default;
-                transform: scale(1);
-            }
-            
-            .minesweeper-cell.revealed:hover {
-                background: rgba(255, 255, 255, 0.1);
-            }
-            
-            .minesweeper-cell.mine {
-                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-                color: white;
-            }
-            
-            .minesweeper-cell.flag {
-                background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
-                color: #1a1a1a;
-            }
-            
-            .minesweeper-cell.number-1 { color: #60a5fa; }
-            .minesweeper-cell.number-2 { color: #34d399; }
-            .minesweeper-cell.number-3 { color: #f87171; }
-            .minesweeper-cell.number-4 { color: #a78bfa; }
-            .minesweeper-cell.number-5 { color: #ffffff; }
-            .minesweeper-cell.number-6 { color: #22d3ee; }
-            .minesweeper-cell.number-7 { color: #ffffff; }
-            .minesweeper-cell.number-8 { color: #d1d5db; }
-            
-            .minesweeper-controls {
-                display: flex;
-                gap: 8px;
-                margin-bottom: 12px;
-            }
-            
-            .minesweeper-difficulty {
-                display: flex;
-                gap: 6px;
-                margin-bottom: 12px;
-            }
-            
-            .difficulty-btn {
-                flex: 1;
-                padding: 8px;
-                border: 2px solid rgba(255, 255, 255, 0.2);
-                border-radius: 8px;
-                text-align: center;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.2s;
-                background: rgba(255, 255, 255, 0.05);
-                color: #e5e7eb;
-                font-size: 10px;
-            }
-            
-            .difficulty-btn.selected {
-                border-color: #ffffff;
-                background: rgba(255, 255, 255, 0.1);
-                color: #ffffff;
-                transform: scale(1.02);
-            }
-            
-            .cashout-btn {
-                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                color: white;
-                padding: 16px;
-                border-radius: 12px;
-                font-weight: 700;
-                cursor: pointer;
-                text-align: center;
-                transition: all 0.2s;
-                box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
-            }
-            
-            .cashout-btn:hover {
-                background: linear-gradient(135deg, #059669 0%, #047857 100%);
-                transform: translateY(-2px);
-            }
-            
-            .cashout-btn:disabled {
-                background: #4b5563;
-                cursor: not-allowed;
-            }
-            
-            .progress-indicator {
-                background: rgba(15, 15, 15, 0.6);
-                border-radius: 8px;
-                padding: 8px;
-                margin-bottom: 12px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .progress-text {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 6px;
-                font-size: 10px;
-            }
-            
-            .progress-bar {
-                height: 4px;
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 4px;
-                overflow: hidden;
-            }
-            
-            .progress-fill {
-                height: 100%;
-                background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
-                border-radius: 4px;
-                transition: width 0.3s ease;
-            }
-            
-            .progress-fill.achieved {
-                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            }
-            
-            .benefit-indicator {
-                text-align: center;
-                padding: 6px;
-                border-radius: 6px;
-                font-weight: 600;
-                font-size: 10px;
-                margin-top: 6px;
-            }
-            
-            .benefit-indicator.positive {
-                background: rgba(16, 185, 129, 0.2);
-                color: #10b981;
-                border: 1px solid rgba(16, 185, 129, 0.3);
-            }
-            
-            /* Estilos para el campo de apuesta compacto */
-            .bet-input-container {
-                display: flex;
-                align-items: center;
-                margin-bottom: 12px;
-                background: rgba(15, 15, 15, 0.6);
-                border-radius: 8px;
-                padding: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .bet-input-label {
-                font-size: 12px;
-                color: #9ca3af;
-                margin-right: 8px;
-                white-space: nowrap;
-            }
-            
-            .bet-input {
-                flex: 1;
-                background: transparent;
-                border: none;
-                color: #ffffff;
-                font-size: 14px;
-                font-weight: 600;
-                text-align: right;
-                outline: none;
-            }
-            
-            .bet-input::placeholder {
-                color: #6b7280;
-            }
-            
-            /* Ocultar elementos de desktop */
-            .desktop-only {
-                display: none !important;
-            }
+        .mobile-app-container {
+            width: 100%;
+            height: 100vh;
+            height: calc(var(--vh, 1vh) * 100);
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding-top: var(--safe-area-inset-top);
+            padding-bottom: var(--safe-area-inset-bottom);
         }
         
-        /* Estilos para desktop (se mantienen igual) */
-        @media (min-width: 769px) {
-            .mobile-only {
-                display: none !important;
-            }
-            
-            /* Todos los estilos originales se mantienen aquí pero actualizados */
-            .glass-card {
-                background: rgba(30, 30, 30, 0.8);
-                backdrop-filter: blur(20px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            }
-            
-            .btn-primary {
-                background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
-                box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                color: #1a1a1a;
-                font-weight: 600;
-            }
-            
-            .btn-primary:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
-            }
-            
-            /* ... resto de estilos desktop similares actualizados ... */
+        .mobile-content {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 60px; /* Espacio para la barra de navegación */
+        }
+        
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            z-index: 50;
+            padding-bottom: var(--safe-area-inset-bottom);
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 10px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .nav-item.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .mobile-header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: calc(12px + var(--safe-area-inset-top));
+        }
+        
+        .mobile-header-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .mobile-header-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .mobile-card {
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .mobile-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 16px 16px 8px;
+        }
+        
+        .mobile-balance-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 24px;
+            margin: 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .mobile-balance-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 4px;
+        }
+        
+        .mobile-balance-amount {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .mobile-balance-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .mobile-balance-wallet {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .mobile-balance-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mobile-transaction-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .mobile-transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
+        .mobile-transaction-details {
+            flex: 1;
+        }
+        
+        .mobile-transaction-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #f9fafb;
+            margin-bottom: 2px;
+        }
+        
+        .mobile-transaction-date {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        .mobile-transaction-amount {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .mobile-empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 16px;
+            text-align: center;
+        }
+        
+        .mobile-empty-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            color: #9ca3af;
+            font-size: 24px;
+        }
+        
+        .mobile-empty-text {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        
+        .mobile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0 auto 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mobile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .mobile-profile-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .mobile-profile-label {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+        
+        .mobile-profile-value {
+            color: #f9fafb;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        /* Estilos para el Buscaminas */
+        .game-card {
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin-bottom: 16px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .game-content {
+            padding: 16px;
+        }
+        
+        .minesweeper-container {
+            padding: 12px;
+        }
+        
+        .minesweeper-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .minesweeper-timer {
+            background: rgba(15, 15, 15, 0.6);
+            border-radius: 12px;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .minesweeper-timer i {
+            margin-right: 6px;
+            font-size: 10px;
+        }
+        
+        .minesweeper-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            background: rgba(15, 15, 15, 0.6);
+            border-radius: 12px;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .minesweeper-stats {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .minesweeper-stats-label {
+            font-size: 9px;
+            color: #9ca3af;
+            margin-bottom: 2px;
+        }
+        
+        .minesweeper-stats-value {
+            font-size: 14px;
+            font-weight: 800;
+            color: #f9fafb;
+        }
+        
+        .minesweeper-stats-value.progress-achieved {
+            color: #10b981;
+        }
+        
+        .minesweeper-board {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .minesweeper-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 12px;
+        }
+        
+        .minesweeper-cell:hover {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            transform: scale(1.05);
+        }
+        
+        .minesweeper-cell.revealed {
+            background: rgba(255, 255, 255, 0.1);
+            cursor: default;
+            transform: scale(1);
+        }
+        
+        .minesweeper-cell.revealed:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .minesweeper-cell.mine {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+        
+        .minesweeper-cell.flag {
+            background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+            color: #1a1a1a;
+        }
+        
+        .minesweeper-cell.number-1 { color: #60a5fa; }
+        .minesweeper-cell.number-2 { color: #34d399; }
+        .minesweeper-cell.number-3 { color: #f87171; }
+        .minesweeper-cell.number-4 { color: #a78bfa; }
+        .minesweeper-cell.number-5 { color: #ffffff; }
+        .minesweeper-cell.number-6 { color: #22d3ee; }
+        .minesweeper-cell.number-7 { color: #ffffff; }
+        .minesweeper-cell.number-8 { color: #d1d5db; }
+        
+        .minesweeper-difficulty {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        
+        .difficulty-btn {
+            flex: 1;
+            padding: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e5e7eb;
+            font-size: 10px;
+        }
+        
+        .difficulty-btn.selected {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transform: scale(1.02);
+        }
+        
+        .progress-indicator {
+            background: rgba(15, 15, 15, 0.6);
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 10px;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-fill.achieved {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        /* Estilos para el campo de apuesta compacto */
+        .bet-input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            background: rgba(15, 15, 15, 0.6);
+            border-radius: 8px;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .bet-input-label {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+        
+        .bet-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: right;
+            outline: none;
+        }
+        
+        .bet-input::placeholder {
+            color: #6b7280;
+        }
+        
+        .game-result {
+            text-align: center;
+            padding: 20px;
+            margin-top: 16px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .game-result.win {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        
+        .game-result.loss {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+        
+        .mobile-action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(30, 30, 30, 0.8);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+        
+        .mobile-action-btn i {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: white;
+        }
+        
+        .mobile-action-btn span {
+            font-size: 12px;
+            font-weight: 500;
+            color: #e5e7eb;
+        }
+        
+        .mobile-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            display: flex;
+            align-items: flex-end;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .mobile-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .mobile-modal-content {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(20px);
+            width: 100%;
+            border-radius: 24px 24px 0 0;
+            padding: 24px;
+            transform: translateY(100%);
+            transition: all 0.3s;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .mobile-modal.active .mobile-modal-content {
+            transform: translateY(0);
+        }
+        
+        .mobile-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .mobile-modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .mobile-modal-close {
+            color: #9ca3af;
+            font-size: 20px;
+        }
+        
+        .mobile-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 16px;
+            margin-bottom: 16px;
+            background: rgba(15, 15, 15, 0.6);
+            color: #f9fafb;
+        }
+        
+        .mobile-input:focus {
+            border-color: #ffffff;
+            outline: none;
+            background: rgba(15, 15, 15, 0.8);
+        }
+        
+        .mobile-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            margin-top: 8px;
+        }
+        
+        .mobile-btn-primary {
+            background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        
+        .mobile-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e5e7eb;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Estilos para el indicador de saldo en juegos */
+        .balance-indicator {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Animaciones mejoradas */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        /* Ocultar elementos de desktop */
+        .desktop-only {
+            display: none !important;
+        }
+        
+        /* Optimizaciones de rendimiento */
+        * {
+            box-sizing: border-box;
+        }
+        
+        .mobile-content {
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+        
+        .minesweeper-cell {
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
         }
     </style>
 </head>
 <body class="min-h-screen">
     <!-- Versión Mobile -->
-    <div class="mobile-only mobile-app-container">
+    <div class="mobile-app-container">
         <!-- Header -->
         <div class="mobile-header">
-            <div class="mobile-header-title" id="mobile-header-title">Juegos</div>
+            <div class="mobile-header-title" id="mobile-header-title">Wallet</div>
             <div class="mobile-header-actions">
                 <button id="mobile-logout-btn" class="text-white">
                     <i class="fas fa-sign-out-alt"></i>
@@ -885,8 +715,8 @@
         
         <!-- Contenido principal -->
         <div class="mobile-content" id="mobile-content">
-            <!-- Vista de Juegos -->
-            <div id="mobile-games-view">
+            <!-- Vista de Wallet -->
+            <div id="mobile-wallet-view">
                 <!-- Tarjeta de balance -->
                 <div class="mobile-balance-card">
                     <div class="mobile-balance-label">Saldo disponible</div>
@@ -910,8 +740,46 @@
                     </button>
                 </div>
                 
-                <!-- Juegos disponibles -->
-                <div class="mobile-section-title">Juegos de Apuestas</div>
+                <!-- Historial de transacciones recientes -->
+                <div class="mobile-section-title">Transacciones Recientes</div>
+                
+                <div class="mobile-card">
+                    <div id="mobile-transactions-list">
+                        <div class="mobile-transaction-item">
+                            <div class="w-full text-center py-8">
+                                <i class="fas fa-spinner fa-spin text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vista de Historial Completo -->
+            <div id="mobile-history-view" class="hidden">
+                <div class="mobile-card mt-2">
+                    <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+                        <div class="text-sm font-medium text-white">Filtrar por:</div>
+                        <select id="mobile-transactions-filter" class="text-sm border-none bg-transparent text-white font-medium">
+                            <option value="all">Todas</option>
+                            <option value="deposit">Ingresos</option>
+                            <option value="withdrawal">Retiros</option>
+                            <option value="bet">Apuestas</option>
+                        </select>
+                    </div>
+                    <div id="mobile-transactions-full-list">
+                        <div class="mobile-transaction-item">
+                            <div class="w-full text-center py-8">
+                                <i class="fas fa-spinner fa-spin text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vista de Juegos -->
+            <div id="mobile-games-view" class="hidden">
+                <!-- Indicador de saldo en juegos -->
+                <div class="balance-indicator" id="games-balance-indicator">Bs</div>
                 
                 <!-- Juego de Buscaminas -->
                 <div class="game-card">
@@ -981,36 +849,7 @@
                                 <!-- El tablero se generará dinámicamente -->
                             </div>
                             
-                            <div class="minesweeper-controls">
-                                <button id="mobile-minesweeper-reset" class="flex-1 py-3 px-4 rounded-lg bg-gray-700 text-white font-bold hover:bg-gray-600 transition-colors">
-                                    <i class="fas fa-redo mr-2"></i>
-                                    Reiniciar
-                                </button>
-                            </div>
-                            
                             <div id="mobile-minesweeper-result" class="game-result hidden"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Vista de Transacciones -->
-            <div id="mobile-transactions-view" class="hidden">
-                <div class="mobile-card mt-2">
-                    <div class="p-4 border-b border-gray-700 flex justify-between items-center">
-                        <div class="text-sm font-medium text-white">Filtrar por:</div>
-                        <select id="mobile-transactions-filter" class="text-sm border-none bg-transparent text-white font-medium">
-                            <option value="all">Todas</option>
-                            <option value="deposit">Ingresos</option>
-                            <option value="withdrawal">Retiros</option>
-                            <option value="bet">Apuestas</option>
-                        </select>
-                    </div>
-                    <div id="mobile-transactions-full-list">
-                        <div class="mobile-transaction-item">
-                            <div class="w-full text-center py-8">
-                                <i class="fas fa-spinner fa-spin text-white"></i>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1063,13 +902,17 @@
         
         <!-- Barra de navegación inferior -->
         <div class="mobile-bottom-nav">
-            <a href="#" class="nav-item active" data-view="games">
+            <a href="#" class="nav-item active" data-view="wallet">
+                <i class="fas fa-wallet"></i>
+                <span>Wallet</span>
+            </a>
+            <a href="#" class="nav-item" data-view="games">
                 <i class="fas fa-gamepad"></i>
                 <span>Juegos</span>
             </a>
-            <a href="#" class="nav-item" data-view="transactions">
-                <i class="fas fa-exchange-alt"></i>
-                <span>Transacciones</span>
+                        <a href="#" class="nav-item" data-view="history">
+                <i class="fas fa-history"></i>
+                <span>Historial</span>
             </a>
             <a href="#" class="nav-item" data-view="profile">
                 <i class="fas fa-user"></i>
@@ -1426,18 +1269,6 @@
         };
         
         // Funciones para manejar modales
-        const openModal = (modalId) => {
-            const modal = document.getElementById(modalId);
-            modal.classList.add('active');
-            modal.classList.remove('opacity-0', 'invisible');
-        };
-        
-        const closeModal = (modalId) => {
-            const modal = document.getElementById(modalId);
-            modal.classList.remove('active');
-            modal.classList.add('opacity-0', 'invisible');
-        };
-        
         const openMobileModal = (modalId) => {
             const modal = document.getElementById(modalId);
             modal.classList.add('active');
@@ -1530,13 +1361,13 @@
             return balance;
         };
         
-        const loadTransactions = async (userId, filter = 'all') => {
+        const loadTransactions = async (userId, filter = 'all', limit = 5) => {
             let query = supabase
                 .from('transactions')
                 .select('*')
                 .eq('user_id', userId)
                 .order('created_at', { ascending: false })
-                .limit(20);
+                .limit(limit);
                 
             if (filter !== 'all') {
                 query = query.eq('type', filter);
@@ -1645,15 +1476,11 @@
             updateMinesweeperUI();
             renderMinesweeperBoard();
             
-            // Deshabilitar botón de reinicio durante el juego
-            const resetButtons = document.querySelectorAll('#mobile-minesweeper-reset');
-            resetButtons.forEach(btn => {
-                if (btn) {
-                    btn.disabled = true;
-                    btn.classList.remove('hover:bg-gray-600');
-                    btn.classList.add('bg-gray-800', 'cursor-not-allowed');
-                }
-            });
+            // Ocultar resultado anterior
+            const resultElement = document.getElementById('mobile-minesweeper-result');
+            if (resultElement) {
+                resultElement.classList.add('hidden');
+            }
         };
         
         const getMultiplierForDifficulty = (difficulty) => {
@@ -1887,37 +1714,32 @@
                     }
                 );
                 
-                showToast(`¡Ganaste ${winAmount.toFixed(2)} Bs en Buscaminas! (Inversión: ${baseBetAmount.toFixed(2)} Bs + Ganancia: ${(winAmount - baseBetAmount).toFixed(2)} Bs)`, 'success');
+                showToast(`¡Ganaste ${winAmount.toFixed(2)} Bs!`, 'success');
                 
                 // Mostrar resultado
                 const resultElement = document.getElementById('mobile-minesweeper-result');
                 if (resultElement) {
-                    resultElement.textContent = `¡Tiempo agotado! Ganaste ${winAmount.toFixed(2)} Bs (Inversión: ${baseBetAmount.toFixed(2)} Bs + Ganancia: ${(winAmount - baseBetAmount).toFixed(2)} Bs)`;
+                    resultElement.textContent = `¡Ganaste ${winAmount.toFixed(2)} Bs!`;
                     resultElement.className = 'game-result win';
                     resultElement.classList.remove('hidden');
                 }
             } else {
                 // Derrota - pierde la apuesta
-                showToast(`Perdiste ${baseBetAmount.toFixed(2)} Bs en Buscaminas`, 'error');
+                showToast(`Perdiste ${baseBetAmount.toFixed(2)} Bs`, 'error');
                 
                 // Mostrar resultado
                 const resultElement = document.getElementById('mobile-minesweeper-result');
                 if (resultElement) {
-                    resultElement.textContent = '¡Tiempo agotado! No alcanzaste el progreso requerido';
+                    resultElement.textContent = '¡Perdiste!';
                     resultElement.className = 'game-result loss';
                     resultElement.classList.remove('hidden');
                 }
             }
             
-            // Habilitar botón de reinicio
-            const resetButtons = document.querySelectorAll('#mobile-minesweeper-reset');
-            resetButtons.forEach(btn => {
-                if (btn) {
-                    btn.disabled = false;
-                    btn.classList.add('hover:bg-gray-600');
-                    btn.classList.remove('bg-gray-800', 'cursor-not-allowed');
-                }
-            });
+            // Reiniciar juego automáticamente después de 2 segundos
+            setTimeout(() => {
+                initializeMinesweeper();
+            }, 2000);
             
             // Actualizar UI
             updateUI();
@@ -1948,16 +1770,6 @@
                 }
             }
             
-            // Habilitar botón de reinicio
-            const resetButtons = document.querySelectorAll('#mobile-minesweeper-reset');
-            resetButtons.forEach(btn => {
-                if (btn) {
-                    btn.disabled = false;
-                    btn.classList.add('hover:bg-gray-600');
-                    btn.classList.remove('bg-gray-800', 'cursor-not-allowed');
-                }
-            });
-            
             // Actualizar UI
             renderMinesweeperBoard();
             
@@ -1968,7 +1780,7 @@
                     // Victoria completa - multiplicador completo
                     const winAmount = baseBetAmount * currentMultiplier;
                     
-                    resultElement.textContent = `¡Ganaste! ${winAmount.toFixed(2)} Bs (Inversión: ${baseBetAmount.toFixed(2)} Bs + Ganancia: ${(winAmount - baseBetAmount).toFixed(2)} Bs)`;
+                    resultElement.textContent = `¡Ganaste ${winAmount.toFixed(2)} Bs!`;
                     resultElement.className = 'game-result win';
                     resultElement.classList.remove('hidden');
                     
@@ -1995,18 +1807,23 @@
                         }
                     );
                     
-                    showToast(`¡Ganaste ${winAmount.toFixed(2)} Bs en Buscaminas! (Inversión: ${baseBetAmount.toFixed(2)} Bs + Ganancia: ${(winAmount - baseBetAmount).toFixed(2)} Bs)`, 'success');
+                    showToast(`¡Ganaste ${winAmount.toFixed(2)} Bs!`, 'success');
                     
                 } else {
                     // Derrota
-                    resultElement.textContent = '¡Perdiste! Encontraste una mina';
+                    resultElement.textContent = '¡Perdiste!';
                     resultElement.className = 'game-result loss';
                     resultElement.classList.remove('hidden');
                     
                     // Ya se procesó la pérdida al inicio del juego
-                    showToast(`Perdiste ${baseBetAmount.toFixed(2)} Bs en Buscaminas`, 'error');
+                    showToast(`Perdiste ${baseBetAmount.toFixed(2)} Bs`, 'error');
                 }
             }
+            
+            // Reiniciar juego automáticamente después de 2 segundos
+            setTimeout(() => {
+                initializeMinesweeper();
+            }, 2000);
             
             // Actualizar UI
             updateUI();
@@ -2092,10 +1909,10 @@
         };
         
         // Funciones para renderizar datos
-        const renderTransactions = (transactions) => {
-            const mobileFullContainer = document.getElementById('mobile-transactions-full-list');
+        const renderTransactions = (transactions, containerId, showEmptyState = true) => {
+            const container = document.getElementById(containerId);
             
-            if (transactions.length === 0) {
+            if (transactions.length === 0 && showEmptyState) {
                 const emptyState = `
                     <div class="mobile-empty-state">
                         <div class="mobile-empty-icon">
@@ -2106,11 +1923,11 @@
                     </div>
                 `;
                 
-                if (mobileFullContainer) mobileFullContainer.innerHTML = emptyState;
+                if (container) container.innerHTML = emptyState;
                 return;
             }
             
-            const mobileFullHtml = transactions.map(transaction => {
+            const html = transactions.map(transaction => {
                 const isPositive = transaction.type === 'deposit';
                 const iconColor = isPositive ? 'bg-green-500 text-white' : 'bg-red-500 text-white';
                 const textColor = isPositive ? 'text-green-400' : 'text-red-400';
@@ -2135,7 +1952,7 @@
                 `;
             }).join('');
             
-            if (mobileFullContainer) mobileFullContainer.innerHTML = mobileFullHtml;
+            if (container) container.innerHTML = html;
         };
         
         const updateUI = async () => {
@@ -2143,16 +1960,19 @@
             
             // Actualizar balance
             currentBalance = await calculateBalance(currentUser.id);
-            const balanceElements = document.querySelectorAll('#mobile-balance');
+            const balanceElements = document.querySelectorAll('#mobile-balance, #games-balance-indicator');
             balanceElements.forEach(el => {
                 if (el) el.textContent = formatCurrency(currentBalance);
             });
             
-            // Cargar y renderizar transacciones
-            const mobileFilter = document.getElementById('mobile-transactions-filter')?.value || 'all';
+            // Cargar y renderizar transacciones recientes
+            const recentTransactions = await loadTransactions(currentUser.id, 'all', 5);
+            renderTransactions(recentTransactions, 'mobile-transactions-list', false);
             
-            const transactions = await loadTransactions(currentUser.id, mobileFilter);
-            renderTransactions(transactions);
+            // Cargar y renderizar transacciones completas
+            const mobileFilter = document.getElementById('mobile-transactions-filter')?.value || 'all';
+            const fullTransactions = await loadTransactions(currentUser.id, mobileFilter, 20);
+            renderTransactions(fullTransactions, 'mobile-transactions-full-list');
             
             // Actualizar perfil móvil
             if (document.getElementById('mobile-user-name')) {
@@ -2259,7 +2079,7 @@
             
             // Navegación móvil
             const navItems = document.querySelectorAll('.nav-item');
-            const views = ['games', 'transactions', 'profile'];
+            const views = ['wallet', 'history', 'games', 'profile'];
             
             navItems.forEach(item => {
                 item.addEventListener('click', (e) => {
@@ -2287,14 +2107,20 @@
                     
                     // Actualizar título
                     const titleMap = {
+                        'wallet': 'Wallet',
+                        'history': 'Historial',
                         'games': 'Juegos',
-                        'transactions': 'Transacciones',
                         'profile': 'Perfil'
                     };
                     
                     const titleElement = document.getElementById('mobile-header-title');
                     if (titleElement) {
                         titleElement.textContent = titleMap[view];
+                    }
+                    
+                    // Actualizar datos específicos de la vista
+                    if (view === 'history') {
+                        updateUI();
                     }
                 });
             });
@@ -2697,14 +2523,6 @@
                 btn.addEventListener('click', () => {
                     const difficulty = btn.dataset.difficulty;
                     setMinesweeperDifficulty(difficulty);
-                    initializeMinesweeper();
-                });
-            });
-            
-            // Botones de reinicio
-            const resetButtons = document.querySelectorAll('#mobile-minesweeper-reset');
-            resetButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
                     initializeMinesweeper();
                 });
             });
