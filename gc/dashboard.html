@@ -282,58 +282,95 @@
             font-size: 14px;
         }
         
-        /* Estilos para el Buscaminas */
-        .game-card {
-            background: rgba(30, 30, 30, 0.8);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            margin-bottom: 16px;
-            transition: all 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .game-content {
+        /* ========== ESTILOS MEJORADOS PARA EL APARTADO DE JUEGOS ========== */
+        .games-container {
             padding: 16px;
         }
         
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .game-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .game-title i {
+            color: #fbbf24;
+        }
+        
+        .balance-indicator {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-card {
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .game-content {
+            padding: 20px;
+        }
+        
         .minesweeper-container {
-            padding: 12px;
+            padding: 0;
         }
         
         .minesweeper-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
+            background: rgba(15, 15, 15, 0.7);
+            border-radius: 16px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .minesweeper-timer {
-            background: rgba(15, 15, 15, 0.6);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             border-radius: 12px;
-            padding: 6px 10px;
-            font-size: 12px;
+            padding: 10px 15px;
+            font-size: 14px;
             font-weight: 700;
             display: flex;
             align-items: center;
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         
         .minesweeper-timer i {
-            margin-right: 6px;
-            font-size: 10px;
-        }
-        
-        .minesweeper-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            background: rgba(15, 15, 15, 0.6);
-            border-radius: 12px;
-            padding: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-right: 8px;
+            font-size: 12px;
+            color: #fbbf24;
         }
         
         .minesweeper-stats {
@@ -343,13 +380,13 @@
         }
         
         .minesweeper-stats-label {
-            font-size: 9px;
+            font-size: 11px;
             color: #9ca3af;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
         
         .minesweeper-stats-value {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 800;
             color: #f9fafb;
         }
@@ -358,11 +395,120 @@
             color: #10b981;
         }
         
+        .bet-input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            background: rgba(15, 15, 15, 0.7);
+            border-radius: 16px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .bet-input-label {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-right: 12px;
+            white-space: nowrap;
+        }
+        
+        .bet-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: right;
+            outline: none;
+        }
+        
+        .bet-input::placeholder {
+            color: #6b7280;
+        }
+        
+        .progress-indicator {
+            background: rgba(15, 15, 15, 0.7);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .progress-fill.achieved {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        
+        .minesweeper-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: rgba(15, 15, 15, 0.7);
+            border-radius: 16px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .minesweeper-difficulty {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .difficulty-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e5e7eb;
+            font-size: 12px;
+        }
+        
+        .difficulty-btn.selected {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+        
         .minesweeper-board {
             display: grid;
             grid-template-columns: repeat(8, 1fr);
-            gap: 4px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 20px;
+            background: rgba(15, 15, 15, 0.7);
+            border-radius: 16px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .minesweeper-cell {
@@ -371,13 +517,13 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
             user-select: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            font-size: 12px;
+            font-size: 14px;
         }
         
         .minesweeper-cell:hover {
@@ -414,99 +560,6 @@
         .minesweeper-cell.number-7 { color: #ffffff; }
         .minesweeper-cell.number-8 { color: #d1d5db; }
         
-        .minesweeper-difficulty {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-        
-        .difficulty-btn {
-            flex: 1;
-            padding: 8px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: rgba(255, 255, 255, 0.05);
-            color: #e5e7eb;
-            font-size: 10px;
-        }
-        
-        .difficulty-btn.selected {
-            border-color: #ffffff;
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            transform: scale(1.02);
-        }
-        
-        .progress-indicator {
-            background: rgba(15, 15, 15, 0.6);
-            border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .progress-text {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-            font-size: 10px;
-        }
-        
-        .progress-bar {
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-        
-        .progress-fill.achieved {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-        
-        /* Estilos para el campo de apuesta compacto */
-        .bet-input-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            background: rgba(15, 15, 15, 0.6);
-            border-radius: 8px;
-            padding: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .bet-input-label {
-            font-size: 12px;
-            color: #9ca3af;
-            margin-right: 8px;
-            white-space: nowrap;
-        }
-        
-        .bet-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 600;
-            text-align: right;
-            outline: none;
-        }
-        
-        .bet-input::placeholder {
-            color: #6b7280;
-        }
-        
         .game-result {
             text-align: center;
             padding: 20px;
@@ -514,16 +567,25 @@
             border-radius: 16px;
             font-weight: 700;
             font-size: 18px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         
         .game-result.win {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
         }
         
         .game-result.loss {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
         }
         
         .mobile-action-btn {
@@ -556,19 +618,22 @@
             color: #e5e7eb;
         }
         
+        /* ========== ESTILOS MEJORADOS PARA MODALES ========== */
         .mobile-modal {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 100;
             display: flex;
-            align-items: flex-end;
+            align-items: center;
+            justify-content: center;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s;
+            padding: 20px;
         }
         
         .mobile-modal.active {
@@ -578,15 +643,17 @@
         
         .mobile-modal-content {
             background: rgba(30, 30, 30, 0.95);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px);
             width: 100%;
-            border-radius: 24px 24px 0 0;
+            max-width: 400px;
+            border-radius: 24px;
             padding: 24px;
-            transform: translateY(100%);
+            transform: translateY(20px);
             transition: all 0.3s;
             max-height: 90vh;
             overflow-y: auto;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
         }
         
         .mobile-modal.active .mobile-modal-content {
@@ -598,50 +665,74 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .mobile-modal-title {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
             color: #ffffff;
         }
         
         .mobile-modal-close {
             color: #9ca3af;
-            font-size: 20px;
+            font-size: 22px;
+            background: rgba(255, 255, 255, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .mobile-modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
         
         .mobile-input {
             width: 100%;
-            padding: 14px 16px;
+            padding: 16px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             font-size: 16px;
             margin-bottom: 16px;
             background: rgba(15, 15, 15, 0.6);
             color: #f9fafb;
+            transition: all 0.2s;
         }
         
         .mobile-input:focus {
             border-color: #ffffff;
             outline: none;
             background: rgba(15, 15, 15, 0.8);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
         }
         
         .mobile-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border-radius: 12px;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             text-align: center;
             margin-top: 8px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
         }
         
         .mobile-btn-primary {
             background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
             color: #1a1a1a;
-            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+        
+        .mobile-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
         }
         
         .mobile-btn-secondary {
@@ -649,24 +740,86 @@
             color: #e5e7eb;
         }
         
-        .hidden {
-            display: none !important;
+        .mobile-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
         }
         
-        /* Estilos para el indicador de saldo en juegos */
-        .balance-indicator {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: rgba(15, 15, 15, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 600;
-            color: white;
-            z-index: 10;
+        /* ========== ESTILOS MEJORADOS PARA QR ========== */
+        .qr-section {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(15, 15, 15, 0.6);
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .qr-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+        
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .qr-code {
+            width: 220px;
+            height: 220px;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .qr-instructions {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+        
+        .file-input-container {
+            margin: 20px 0;
+        }
+        
+        .file-input-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(15, 15, 15, 0.4);
+            color: #9ca3af;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .file-input-label:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(15, 15, 15, 0.6);
+        }
+        
+        .file-input-label i {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .file-name {
+            font-size: 12px;
+            margin-top: 8px;
+            color: #ffffff;
+        }
+        
+        .hidden {
+            display: none !important;
         }
         
         /* Animaciones mejoradas */
@@ -776,80 +929,88 @@
                 </div>
             </div>
             
-            <!-- Vista de Juegos -->
+            <!-- Vista de Juegos - MEJORADA -->
             <div id="mobile-games-view" class="hidden">
-                <!-- Indicador de saldo en juegos -->
-                <div class="balance-indicator" id="games-balance-indicator">Bs</div>
-                
-                <!-- Juego de Buscaminas -->
-                <div class="game-card">
-                    <div class="game-content">
-                        <div class="minesweeper-container">
-                            <!-- Cabecera con temporizador y estadísticas -->
-                            <div class="minesweeper-header">
-                                <div class="minesweeper-timer">
-                                    <i class="fas fa-clock"></i>
-                                    <span id="mobile-time-count">20</span>s
+                <div class="games-container">
+                    <!-- Encabezado de juegos -->
+                    <div class="game-header">
+                        <div class="game-title">
+                            <i class="fas fa-gamepad"></i>
+                            Buscaminas
+                        </div>
+                        <div class="balance-indicator" id="games-balance-indicator">Bs</div>
+                    </div>
+                    
+                    <!-- Juego de Buscaminas -->
+                    <div class="game-card">
+                        <div class="game-content">
+                            <div class="minesweeper-container">
+                                <!-- Cabecera con temporizador y estadísticas -->
+                                <div class="minesweeper-header">
+                                    <div class="minesweeper-timer">
+                                        <i class="fas fa-clock"></i>
+                                        <span id="mobile-time-count">20</span>s
+                                    </div>
+                                    <div class="minesweeper-stats">
+                                        <div class="minesweeper-stats-label">Ganancia</div>
+                                        <div class="minesweeper-stats-value" id="mobile-win-percentage">+80%</div>
+                                    </div>
                                 </div>
-                                <div class="minesweeper-stats">
-                                    <div class="minesweeper-stats-label">Ganancia</div>
-                                    <div class="minesweeper-stats-value" id="mobile-win-percentage">+80%</div>
+                                
+                                <!-- Campo de apuesta compacto -->
+                                <div class="bet-input-container">
+                                    <span class="bet-input-label">Monto de apuesta:</span>
+                                    <input type="number" id="mobile-bet-amount-input" class="bet-input" placeholder="0" min="1" value="10">
+                                    <span class="text-xs text-gray-400 ml-1">Bs</span>
                                 </div>
+                                
+                                <!-- Indicador de progreso -->
+                                <div class="progress-indicator">
+                                    <div class="progress-text">
+                                        <span>Progreso: <span id="mobile-progress-count">0%</span></span>
+                                        <span>Objetivo: <span id="mobile-required-progress">75%</span></span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div id="mobile-progress-fill" class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="minesweeper-info">
+                                    <div class="minesweeper-stats">
+                                        <div class="minesweeper-stats-label">Minas</div>
+                                        <div class="minesweeper-stats-value" id="mobile-mines-count">10</div>
+                                    </div>
+                                    <div class="minesweeper-stats">
+                                        <div class="minesweeper-stats-label">Multiplicador</div>
+                                        <div class="minesweeper-stats-value" id="mobile-multiplier">1.8x</div>
+                                    </div>
+                                    <div class="minesweeper-stats">
+                                        <div class="minesweeper-stats-label">Apuesta</div>
+                                        <div class="minesweeper-stats-value" id="mobile-bet-display">10 Bs</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="minesweeper-difficulty">
+                                    <div class="difficulty-btn selected" data-difficulty="easy">
+                                        <div>Fácil</div>
+                                        <div class="text-xs mt-1">75% - 1.8x</div>
+                                    </div>
+                                    <div class="difficulty-btn" data-difficulty="medium">
+                                        <div>Medio</div>
+                                        <div class="text-xs mt-1">55% - 2.2x</div>
+                                    </div>
+                                    <div class="difficulty-btn" data-difficulty="hard">
+                                        <div>Difícil</div>
+                                        <div class="text-xs mt-1">29% - 3.5x</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="minesweeper-board" id="mobile-minesweeper-board">
+                                    <!-- El tablero se generará dinámicamente -->
+                                </div>
+                                
+                                <div id="mobile-minesweeper-result" class="game-result hidden"></div>
                             </div>
-                            
-                            <!-- Campo de apuesta compacto -->
-                            <div class="bet-input-container">
-                                <span class="bet-input-label">Monto de apuesta:</span>
-                                <input type="number" id="mobile-bet-amount-input" class="bet-input" placeholder="0" min="1" value="10">
-                                <span class="text-xs text-gray-400 ml-1">Bs</span>
-                            </div>
-                            
-                            <!-- Indicador de progreso -->
-                            <div class="progress-indicator">
-                                <div class="progress-text">
-                                    <span>Progreso: <span id="mobile-progress-count">0%</span></span>
-                                    <span>Objetivo: <span id="mobile-required-progress">75%</span></span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div id="mobile-progress-fill" class="progress-fill" style="width: 0%"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="minesweeper-info">
-                                <div class="minesweeper-stats">
-                                    <div class="minesweeper-stats-label">Minas</div>
-                                    <div class="minesweeper-stats-value" id="mobile-mines-count">10</div>
-                                </div>
-                                <div class="minesweeper-stats">
-                                    <div class="minesweeper-stats-label">Multiplicador</div>
-                                    <div class="minesweeper-stats-value" id="mobile-multiplier">1.8x</div>
-                                </div>
-                                <div class="minesweeper-stats">
-                                    <div class="minesweeper-stats-label">Apuesta</div>
-                                    <div class="minesweeper-stats-value" id="mobile-bet-display">10 Bs</div>
-                                </div>
-                            </div>
-                            
-                            <div class="minesweeper-difficulty">
-                                <div class="difficulty-btn selected" data-difficulty="easy">
-                                    <div>Fácil</div>
-                                    <div class="text-xs mt-1">75% - 1.8x</div>
-                                </div>
-                                <div class="difficulty-btn" data-difficulty="medium">
-                                    <div>Medio</div>
-                                    <div class="text-xs mt-1">55% - 2.2x</div>
-                                </div>
-                                <div class="difficulty-btn" data-difficulty="hard">
-                                    <div>Difícil</div>
-                                    <div class="text-xs mt-1">29% - 3.5x</div>
-                                </div>
-                            </div>
-                            
-                            <div class="minesweeper-board" id="mobile-minesweeper-board">
-                                <!-- El tablero se generará dinámicamente -->
-                            </div>
-                            
-                            <div id="mobile-minesweeper-result" class="game-result hidden"></div>
                         </div>
                     </div>
                 </div>
@@ -906,13 +1067,13 @@
                 <i class="fas fa-wallet"></i>
                 <span>Wallet</span>
             </a>
+            <a href="#" class="nav-item" data-view="history">
+                <i class="fas fa-history"></i>
+                <span>Historial</span>
+            </a>
             <a href="#" class="nav-item" data-view="games">
                 <i class="fas fa-gamepad"></i>
                 <span>Juegos</span>
-            </a>
-                        <a href="#" class="nav-item" data-view="history">
-                <i class="fas fa-history"></i>
-                <span>Historial</span>
             </a>
             <a href="#" class="nav-item" data-view="profile">
                 <i class="fas fa-user"></i>
@@ -954,7 +1115,7 @@
             </div>
         </div>
         
-        <!-- Modal para recarga de saldo (mobile) -->
+        <!-- Modal para recarga de saldo (mobile) - MEJORADO -->
         <div id="mobile-recharge-balance-modal" class="mobile-modal">
             <div class="mobile-modal-content">
                 <div class="mobile-modal-header">
@@ -979,20 +1140,21 @@
                     <input type="number" id="mobile-recharge-amount-input" class="mobile-input" placeholder="Ej: 100" min="1">
                 </div>
                 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-white mb-1">Método de pago</label>
-                    <div class="qr-code-container">
+                <!-- Sección QR MEJORADA -->
+                <div class="qr-section">
+                    <div class="qr-title">Método de pago</div>
+                    <div class="qr-container">
                         <img src="imagenes/qr.jpg" class="qr-code" alt="QR de pago">
                     </div>
-                    <p class="text-sm text-center text-white mt-2">Escanee el código QR para realizar el pago</p>
+                    <p class="qr-instructions">Escanee el código QR para realizar el pago. Luego suba el comprobante de pago.</p>
                 </div>
                 
-                <div class="mb-4">
+                <div class="file-input-container">
                     <label class="block text-sm font-medium text-white mb-1">Comprobante de pago</label>
                     <input type="file" id="mobile-recharge-receipt" accept="image/*" class="hidden">
                     <label for="mobile-recharge-receipt" class="file-input-label">
                         <i class="fas fa-cloud-upload-alt"></i>
-                        Seleccionar imagen
+                        <span>Seleccionar imagen</span>
                         <div id="mobile-recharge-file-name" class="file-name"></div>
                     </label>
                 </div>
@@ -1033,17 +1195,18 @@
                     <p class="text-xs text-gray-400 mt-1">Monto mínimo de retiro: 30 Bs</p>
                 </div>
                 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-white mb-1">QR para recibir el pago</label>
-                    <div class="qr-code-container">
+                <!-- Sección QR MEJORADA -->
+                <div class="qr-section">
+                    <div class="qr-title">QR para recibir el pago</div>
+                    <div class="qr-container">
                         <img id="mobile-user-qr" src="imagenes/qr.jpg" class="qr-code" alt="QR de pago">
                     </div>
                     <input type="file" id="mobile-user-qr-input" accept="image/*" class="hidden">
-                    <button id="mobile-change-qr-btn" class="mt-2 w-full py-2 px-4 rounded-lg bg-white text-gray-900 font-bold flex items-center justify-center hover:bg-gray-100 transition-colors">
+                    <button id="mobile-change-qr-btn" class="mt-4 w-full py-3 px-4 rounded-lg bg-white text-gray-900 font-bold flex items-center justify-center hover:bg-gray-100 transition-colors">
                         <i class="fas fa-upload mr-2"></i>
                         Subir mi QR
                     </button>
-                    <p class="text-sm text-center text-white mt-2">Proporcione este código QR para recibir el pago</p>
+                    <p class="qr-instructions">Proporcione este código QR para recibir el pago. Puede subir su propio QR si lo prefiere.</p>
                 </div>
                 
                 <button id="mobile-confirm-withdraw-balance" class="mobile-btn mobile-btn-primary flex items-center justify-center">
