@@ -395,21 +395,40 @@
             color: #10b981;
         }
         
+        /* ========== CAMPO DE MONTO DE APUESTA MEJORADO ========== */
         .bet-input-container {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
             background: rgba(15, 15, 15, 0.7);
             border-radius: 16px;
-            padding: 15px;
+            padding: 18px 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 12px;
         }
         
         .bet-input-label {
-            font-size: 14px;
-            color: #9ca3af;
-            margin-right: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #e5e7eb;
             white-space: nowrap;
+            min-width: 120px;
+        }
+        
+        .bet-input-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 0 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+        }
+        
+        .bet-input-wrapper:focus-within {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
         }
         
         .bet-input {
@@ -421,10 +440,20 @@
             font-weight: 600;
             text-align: right;
             outline: none;
+            padding: 14px 0;
+            width: 100%;
         }
         
         .bet-input::placeholder {
             color: #6b7280;
+        }
+        
+        .bet-currency {
+            font-size: 14px;
+            font-weight: 600;
+            color: #9ca3af;
+            margin-left: 8px;
+            white-space: nowrap;
         }
         
         .progress-indicator {
@@ -957,11 +986,13 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Campo de apuesta compacto -->
+                                <!-- ========== CAMPO DE MONTO DE APUESTA MEJORADO ========== -->
                                 <div class="bet-input-container">
                                     <span class="bet-input-label">Monto de apuesta:</span>
-                                    <input type="number" id="mobile-bet-amount-input" class="bet-input" placeholder="0" min="1" value="10">
-                                    <span class="text-xs text-gray-400 ml-1">Bs</span>
+                                    <div class="bet-input-wrapper">
+                                        <input type="number" id="mobile-bet-amount-input" class="bet-input" placeholder="0" min="1" value="10">
+                                        <span class="bet-currency">Bs</span>
+                                    </div>
                                 </div>
                                 
                                 <!-- Indicador de progreso -->
