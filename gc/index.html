@@ -78,20 +78,6 @@
             box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
         }
         
-        .btn-google {
-            background: #ffffff;
-            color: #333333;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn-google:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
-        }
-        
         .input-field {
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -342,25 +328,6 @@
             animation: cardDeal 2s ease-out 0.2s forwards;
             opacity: 0;
         }
-        
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-        }
-        
-        .divider::before,
-        .divider::after {
-            content: "";
-            flex: 1;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .divider-text {
-            padding: 0 10px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 14px;
-        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
@@ -430,17 +397,6 @@
                         <button type="submit" class="btn-primary w-full py-3 px-4 rounded-lg font-medium">
                             Iniciar Sesión
                         </button>
-                        
-                        <!-- Divider -->
-                        <div class="divider">
-                            <span class="divider-text">o</span>
-                        </div>
-                        
-                        <!-- Botón de Google para Login -->
-                        <button type="button" id="google-login" class="btn-google w-full py-3 px-4 rounded-lg font-medium flex items-center justify-center gap-2">
-                            <i class="fab fa-google text-red-500"></i>
-                            Iniciar sesión con Google
-                        </button>
                     </form>
                     
                     <div class="mt-6 text-center text-sm text-gray-400">
@@ -474,17 +430,6 @@
                         <button type="submit" class="btn-primary w-full py-3 px-4 rounded-lg font-medium">
                             Crear Cuenta
                         </button>
-                        
-                        <!-- Divider -->
-                        <div class="divider">
-                            <span class="divider-text">o</span>
-                        </div>
-                        
-                        <!-- Botón de Google para Registro -->
-                        <button type="button" id="google-signup" class="btn-google w-full py-3 px-4 rounded-lg font-medium flex items-center justify-center gap-2">
-                            <i class="fab fa-google text-red-500"></i>
-                            Registrarse con Google
-                        </button>
                     </form>
                     
                     <div class="mt-6 text-center text-sm text-gray-400">
@@ -503,28 +448,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Configuración de Supabase con Google OAuth
+        // Configuración de Supabase
         const supabaseUrl = 'https://crictpggqzstghcdsmls.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNyaWN0cGdncXpzdGdoY2RzbWxzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE2NjMwNjAsImV4cCI6MjA3NzIzOTA2MH0.nZReCtI6xnZMbCiPJ8LryzL4mhDV_7Eskiv3NUkCLME';
-        
-        // Configuración específica para Google OAuth
-        const supabaseConfig = {
-            auth: {
-                autoRefreshToken: true,
-                persistSession: true,
-                detectSessionInUrl: true,
-                flowType: 'pkce',
-                // Configuración específica para Google
-                provider: 'google',
-                clientId: '794882022915-97er8v96p540fs17ga6odohr2cado58h.apps.googleusercontent.com',
-                clientSecret: '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',
-                redirectTo: 'https://crictpggqzstghcdsmls.supabase.co/auth/v1/callback',
-                // Orígenes autorizados
-                siteUrl: 'https://crictpggqzstghcdsmls.supabase.co'
-            }
-        };
-        
-        window.supabase = supabase.createClient(supabaseUrl, supabaseKey, supabaseConfig);
+        window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
         
         // Lógica para cambiar entre pestañas
         const loginTab = document.getElementById('login-tab');
@@ -608,59 +535,6 @@
                 }, 300);
             }, 5000);
         }
-        
-        // Función para autenticación con Google
-        async function signInWithGoogle() {
-            try {
-                const { data, error } = await supabase.auth.signInWithOAuth({
-                    provider: 'google',
-                    options: {
-                        redirectTo: 'https://crictpggqzstghcdsmls.supabase.co/auth/v1/callback',
-                        queryParams: {
-                            access_type: 'offline',
-                            prompt: 'consent',
-                        }
-                    }
-                });
-                
-                if (error) {
-                    showToast('error', 'Error de autenticación', error.message);
-                    console.error('Error de Google OAuth:', error);
-                } else {
-                    showToast('success', 'Redirigiendo...', 'Serás redirigido a Google para autenticarte.');
-                    // La redirección ocurrirá automáticamente
-                }
-            } catch (error) {
-                showToast('error', 'Error', 'Ha ocurrido un error inesperado.');
-                console.error('Error en autenticación con Google:', error);
-            }
-        }
-        
-        // Asignar eventos a los botones de Google
-        document.getElementById('google-login').addEventListener('click', signInWithGoogle);
-        document.getElementById('google-signup').addEventListener('click', signInWithGoogle);
-        
-        // Manejo del estado de autenticación
-        supabase.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN') {
-                showToast('success', '¡Bienvenido!', 'Has iniciado sesión correctamente.');
-                // Aquí puedes redirigir al usuario a la página principal
-                // window.location.href = '/dashboard.html';
-            } else if (event === 'SIGNED_OUT') {
-                showToast('info', 'Sesión cerrada', 'Has cerrado sesión correctamente.');
-            } else if (event === 'USER_UPDATED') {
-                showToast('info', 'Usuario actualizado', 'Tu información ha sido actualizada.');
-            }
-        });
-        
-        // Verificar si hay una sesión activa al cargar la página
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            if (session) {
-                showToast('success', 'Sesión activa', 'Ya tienes una sesión iniciada.');
-                // Redirigir al dashboard si ya está autenticado
-                // window.location.href = '/dashboard.html';
-            }
-        });
         
         // Registra el Service Worker
         if ('serviceWorker' in navigator) {
