@@ -591,26 +591,27 @@
             }, 5000);
         }
         
-        // Función para autenticación con Google
-        async function signInWithGoogle() {
-            try {
-                const { data, error } = await supabase.auth.signInWithOAuth({
-                    provider: 'google',
-                    options: {
-                        redirectTo: window.location.origin
-                    }
-                });
-                
-                if (error) {
-                    showToast('error', 'Error de autenticación', error.message);
-                } else {
-                    showToast('success', 'Redirigiendo...', 'Serás redirigido a Google para autenticarte.');
-                }
-            } catch (error) {
-                showToast('error', 'Error', 'Ha ocurrido un error inesperado.');
-                console.error('Error en autenticación con Google:', error);
+// Función para autenticación con Google
+async function signInWithGoogle() {
+    try {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: 'https://crictpggqzstghcdsmls.supabase.co/auth/v1/callback'
             }
+        });
+
+        if (error) {
+            console.error('Error de autenticación:', error);
+            showToast('error', 'Error de autenticación', error.message);
+        } else {
+            showToast('success', 'Redirigiendo...', 'Serás redirigido a Google para autenticarte.');
         }
+    } catch (err) {
+        console.error('Error inesperado:', err);
+        showToast('error', 'Error', 'Ha ocurrido un error inesperado.');
+    }
+}
         
         // Asignar eventos a los botones de Google
         document.getElementById('google-login').addEventListener('click', signInWithGoogle);
