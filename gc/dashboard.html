@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GC - Apuestas</title>
+    <title>GC - Bingo en Tiempo Real</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -339,11 +339,12 @@
             padding: 20px;
         }
         
-        .minesweeper-container {
+        /* ========== ESTILOS PARA EL BINGO ========== */
+        .bingo-container {
             padding: 0;
         }
         
-        .minesweeper-header {
+        .bingo-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -354,7 +355,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .minesweeper-timer {
+        .bingo-timer {
             background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             border-radius: 12px;
             padding: 10px 15px;
@@ -367,31 +368,31 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         
-        .minesweeper-timer i {
+        .bingo-timer i {
             margin-right: 8px;
             font-size: 12px;
             color: #fbbf24;
         }
         
-        .minesweeper-stats {
+        .bingo-stats {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         
-        .minesweeper-stats-label {
+        .bingo-stats-label {
             font-size: 11px;
             color: #9ca3af;
             margin-bottom: 4px;
         }
         
-        .minesweeper-stats-value {
+        .bingo-stats-value {
             font-size: 16px;
             font-weight: 800;
             color: #f9fafb;
         }
         
-        .minesweeper-stats-value.progress-achieved {
+        .bingo-stats-value.progress-achieved {
             color: #10b981;
         }
         
@@ -456,42 +457,7 @@
             white-space: nowrap;
         }
         
-        .progress-indicator {
-            background: rgba(15, 15, 15, 0.7);
-            border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .progress-text {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 12px;
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
-            border-radius: 10px;
-            transition: width 0.3s ease;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-        
-        .progress-fill.achieved {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
-        }
-        
-        .minesweeper-info {
+        .bingo-info {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
@@ -501,13 +467,13 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .minesweeper-difficulty {
+        .bingo-room-info {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
         }
         
-        .difficulty-btn {
+        .room-btn {
             flex: 1;
             padding: 12px;
             border: 2px solid rgba(255, 255, 255, 0.2);
@@ -521,7 +487,7 @@
             font-size: 12px;
         }
         
-        .difficulty-btn.selected {
+        .room-btn.selected {
             border-color: #ffffff;
             background: rgba(255, 255, 255, 0.15);
             color: #ffffff;
@@ -529,10 +495,10 @@
             box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
         }
         
-        .minesweeper-board {
+        .bingo-board {
             display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            gap: 6px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
             margin-bottom: 20px;
             background: rgba(15, 15, 15, 0.7);
             border-radius: 16px;
@@ -540,7 +506,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .minesweeper-cell {
+        .bingo-cell {
             aspect-ratio: 1;
             display: flex;
             align-items: center;
@@ -553,43 +519,126 @@
             user-select: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             font-size: 14px;
+            color: white;
         }
         
-        .minesweeper-cell:hover {
+        .bingo-cell:hover {
             background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
             transform: scale(1.05);
         }
         
-        .minesweeper-cell.revealed {
-            background: rgba(255, 255, 255, 0.1);
+        .bingo-cell.selected {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
             cursor: default;
             transform: scale(1);
         }
         
-        .minesweeper-cell.revealed:hover {
-            background: rgba(255, 255, 255, 0.1);
+        .bingo-cell.selected:hover {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
         
-        .minesweeper-cell.mine {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        .bingo-cell.disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+        
+        .bingo-cell.disabled:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1);
+        }
+        
+        .bingo-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .bingo-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 14px;
+        }
+        
+        .bingo-btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
         }
         
-        .minesweeper-cell.flag {
-            background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
-            color: #1a1a1a;
+        .bingo-btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
         }
         
-        .minesweeper-cell.number-1 { color: #60a5fa; }
-        .minesweeper-cell.number-2 { color: #34d399; }
-        .minesweeper-cell.number-3 { color: #f87171; }
-        .minesweeper-cell.number-4 { color: #a78bfa; }
-        .minesweeper-cell.number-5 { color: #ffffff; }
-        .minesweeper-cell.number-6 { color: #22d3ee; }
-        .minesweeper-cell.number-7 { color: #ffffff; }
-        .minesweeper-cell.number-8 { color: #d1d5db; }
+        .bingo-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e5e7eb;
+        }
         
-        .game-result {
+        .bingo-btn-secondary:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .bingo-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        .bingo-wheel-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+        }
+        
+        .bingo-wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            position: relative;
+            overflow: hidden;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .bingo-wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            left: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .bingo-wheel-pointer {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #ef4444;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            z-index: 10;
+        }
+        
+        .bingo-result {
             text-align: center;
             padding: 20px;
             margin-top: 16px;
@@ -605,13 +654,13 @@
             100% { transform: scale(1); }
         }
         
-        .game-result.win {
+        .bingo-result.win {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
         }
         
-        .game-result.loss {
+        .bingo-result.loss {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
             box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
@@ -876,9 +925,31 @@
             -webkit-transform: translateZ(0);
         }
         
-        .minesweeper-cell {
+        .bingo-cell {
             transform: translateZ(0);
             -webkit-transform: translateZ(0);
+        }
+        
+        /* Animación de giro de ruleta */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .spinning {
+            animation: spin 0.1s linear infinite;
+        }
+        
+        .slow-spin {
+            animation: spin 0.5s linear infinite;
+        }
+        
+        .slower-spin {
+            animation: spin 1s linear infinite;
+        }
+        
+        .stopping {
+            animation: spin 2s ease-out;
         }
     </style>
 </head>
@@ -964,83 +1035,69 @@
                     <!-- Encabezado de juegos -->
                     <div class="game-header">
                         <div class="game-title">
-                            <i class="fas fa-gamepad"></i>
-                            Buscaminas
+                            <i class="fas fa-dice"></i>
+                            Bingo 
                         </div>
                         <div class="balance-indicator" id="games-balance-indicator">Bs</div>
                     </div>
                     
-                    <!-- Juego de Buscaminas -->
+                    <!-- Juego de Bingo -->
                     <div class="game-card">
                         <div class="game-content">
-                            <div class="minesweeper-container">
+                            <div class="bingo-container">
                                 <!-- Cabecera con temporizador y estadísticas -->
-                                <div class="minesweeper-header">
-                                    <div class="minesweeper-timer">
+                                <div class="bingo-header">
+                                    <div class="bingo-timer">
                                         <i class="fas fa-clock"></i>
-                                        <span id="mobile-time-count">20</span>s
+                                        <span id="mobile-time-count">30</span>s
                                     </div>
-                                    <div class="minesweeper-stats">
-                                        <div class="minesweeper-stats-label">Ganancia</div>
-                                        <div class="minesweeper-stats-value" id="mobile-win-percentage">+80%</div>
-                                    </div>
-                                </div>
-                                
-                                <!-- ========== CAMPO DE MONTO DE APUESTA MEJORADO ========== -->
-                                <div class="bet-input-container">
-                                    <span class="bet-input-label">Monto de apuesta:</span>
-                                    <div class="bet-input-wrapper">
-                                        <input type="number" id="mobile-bet-amount-input" class="bet-input" placeholder="0" min="1" value="10">
-                                        <span class="bet-currency">Bs</span>
+                                    <div class="bingo-stats">
+                                        <div class="bingo-stats-label">Jugadores en sala</div>
+                                        <div class="bingo-stats-value" id="mobile-players-count">1</div>
                                     </div>
                                 </div>
                                 
-                                <!-- Indicador de progreso -->
-                                <div class="progress-indicator">
-                                    <div class="progress-text">
-                                        <span>Progreso: <span id="mobile-progress-count">0%</span></span>
-                                        <span>Objetivo: <span id="mobile-required-progress">75%</span></span>
+                                <!-- Información de la sala -->
+                                <div class="bingo-info">
+                                    <div class="bingo-stats">
+                                        <div class="bingo-stats-label">Números disponibles</div>
+                                        <div class="bingo-stats-value" id="mobile-available-numbers">20</div>
                                     </div>
-                                    <div class="progress-bar">
-                                        <div id="mobile-progress-fill" class="progress-fill" style="width: 0%"></div>
+                                    <div class="bingo-stats">
+                                        <div class="bingo-stats-label">Tus números</div>
+                                        <div class="bingo-stats-value" id="mobile-my-numbers">0/5</div>
                                     </div>
-                                </div>
-                                
-                                <div class="minesweeper-info">
-                                    <div class="minesweeper-stats">
-                                        <div class="minesweeper-stats-label">Minas</div>
-                                        <div class="minesweeper-stats-value" id="mobile-mines-count">10</div>
-                                    </div>
-                                    <div class="minesweeper-stats">
-                                        <div class="minesweeper-stats-label">Multiplicador</div>
-                                        <div class="minesweeper-stats-value" id="mobile-multiplier">1.8x</div>
-                                    </div>
-                                    <div class="minesweeper-stats">
-                                        <div class="minesweeper-stats-label">Apuesta</div>
-                                        <div class="minesweeper-stats-value" id="mobile-bet-display">10 Bs</div>
+                                    <div class="bingo-stats">
+                                        <div class="bingo-stats-label">Costo total</div>
+                                        <div class="bingo-stats-value" id="mobile-total-cost">0 Bs</div>
                                     </div>
                                 </div>
                                 
-                                <div class="minesweeper-difficulty">
-                                    <div class="difficulty-btn selected" data-difficulty="easy">
-                                        <div>Fácil</div>
-                                        <div class="text-xs mt-1">75% - 1.8x</div>
-                                    </div>
-                                    <div class="difficulty-btn" data-difficulty="medium">
-                                        <div>Medio</div>
-                                        <div class="text-xs mt-1">55% - 2.2x</div>
-                                    </div>
-                                    <div class="difficulty-btn" data-difficulty="hard">
-                                        <div>Difícil</div>
-                                        <div class="text-xs mt-1">29% - 3.5x</div>
-                                    </div>
-                                </div>
-                                
-                                <div class="minesweeper-board" id="mobile-minesweeper-board">
+                                <!-- Tablero de números -->
+                                <div class="bingo-board" id="mobile-bingo-board">
                                     <!-- El tablero se generará dinámicamente -->
                                 </div>
                                 
-                                <div id="mobile-minesweeper-result" class="game-result hidden"></div>
+                                <!-- Controles del juego -->
+                                <div class="bingo-controls">
+                                    <button id="mobile-buy-numbers-btn" class="bingo-btn bingo-btn-primary" disabled>
+                                        Comprar números
+                                    </button>
+                                    <button id="mobile-join-room-btn" class="bingo-btn bingo-btn-secondary">
+                                        Unirse a sala
+                                    </button>
+                                </div>
+                                
+                                <!-- Ruleta -->
+                                <div class="bingo-wheel-container">
+                                    <div class="bingo-wheel" id="mobile-bingo-wheel">
+                                        <div class="bingo-wheel-pointer"></div>
+                                        <!-- Los segmentos se generarán dinámicamente -->
+                                    </div>
+                                </div>
+                                
+                                <!-- Resultado del juego -->
+                                <div id="mobile-bingo-result" class="bingo-result hidden"></div>
                             </div>
                         </div>
                     </div>
@@ -1270,27 +1327,39 @@
         let currentUser = null;
         let userProfile = null;
         let currentBalance = 0;
-        let selectedBetAmount = 10;
 
-        // Variables para el Buscaminas
-        let minesweeperBoard = [];
-        let minesweeperGameActive = false;
-        let minesweeperGameStarted = false;
-        let minesweeperFlags = 0;
-        let minesweeperMines = 10;
-        let minesweeperRevealed = 0;
-        let minesweeperTimer = 20;
-        let minesweeperTimerInterval = null;
-        let minesweeperGameTimeout = null;
-        let minesweeperDifficulty = 'easy';
-        let minesweeperBoardSize = 8;
-        let minesweeperTotalCells = 64;
-        let currentMultiplier = 1.8;
-        let currentWinAmount = 0;
-        let baseBetAmount = 0;
-        let gameProgress = 0;
-        let requiredProgress = 75;
-        let gameTimeLimit = 20;
+        // Variables para el Bingo
+        let bingoGameActive = false;
+        let bingoGameStarted = false;
+        let bingoSelectedNumbers = [];
+        let bingoAllNumbers = Array.from({length: 20}, (_, i) => i + 1);
+        let bingoAvailableNumbers = [...bingoAllNumbers];
+        let bingoPlayers = 1; // Comienza con 1 jugador (el usuario actual)
+        let bingoMaxPlayers = 20;
+        let bingoMinPlayers = 1; // Mínimo 1 jugador para empezar
+        let bingoNumberPrice = 2;
+        let bingoMaxNumbersPerPlayer = 5;
+        let bingoMinNumbersPerPlayer = 1;
+        let bingoTimer = 30;
+        let bingoTimerInterval = null;
+        let bingoWheelSpinning = false;
+        let bingoWinningNumbers = [];
+        let bingoWinners = [];
+        let bingoPrizes = {
+            first: 7,
+            second: 5,
+            third: 3
+        };
+        let bingoRequiredRepetitions = {
+            first: 4,
+            second: 3,
+            third: 2
+        };
+
+        // Variables para la sala en tiempo real
+        let bingoRoomChannel = null;
+        let bingoRoomId = 'bingo-room-001'; // ID único para la sala global
+        let roomPlayers = new Map(); // Mapa de jugadores en la sala
 
         // Funciones de utilidad
         const formatCurrency = (amount) => {
@@ -1625,481 +1694,505 @@
             return data;
         };
         
-        // Funciones para el Buscaminas
-        const initializeMinesweeper = () => {
-            // Configurar dificultad
-            setMinesweeperDifficulty(minesweeperDifficulty);
-            
-            // Crear tablero vacío
-            minesweeperBoard = [];
-            for (let i = 0; i < minesweeperBoardSize; i++) {
-                minesweeperBoard[i] = [];
-                for (let j = 0; j < minesweeperBoardSize; j++) {
-                    minesweeperBoard[i][j] = {
-                        isMine: false,
-                        isRevealed: false,
-                        isFlagged: false,
-                        adjacentMines: 0
-                    };
-                }
-            }
-            
-            // Reiniciar contadores
-            minesweeperFlags = 0;
-            minesweeperRevealed = 0;
-            minesweeperTimer = gameTimeLimit;
-            minesweeperGameActive = true;
-            minesweeperGameStarted = false;
-            currentMultiplier = getMultiplierForDifficulty(minesweeperDifficulty);
-            currentWinAmount = 0;
-            gameProgress = 0;
+        // Funciones para el Bingo en tiempo real
+        const initializeBingo = () => {
+            // Reiniciar variables del juego
+            bingoSelectedNumbers = [];
+            bingoAvailableNumbers = [...bingoAllNumbers];
+            bingoGameActive = false;
+            bingoGameStarted = false;
+            bingoWheelSpinning = false;
+            bingoWinningNumbers = [];
+            bingoWinners = [];
+            bingoTimer = 30;
             
             // Detener temporizador anterior si existe
-            if (minesweeperTimerInterval) {
-                clearInterval(minesweeperTimerInterval);
-                minesweeperTimerInterval = null;
-            }
-            
-            // Detener timeout del juego si existe
-            if (minesweeperGameTimeout) {
-                clearTimeout(minesweeperGameTimeout);
-                minesweeperGameTimeout = null;
+            if (bingoTimerInterval) {
+                clearInterval(bingoTimerInterval);
+                bingoTimerInterval = null;
             }
             
             // Actualizar UI
-            updateMinesweeperUI();
-            renderMinesweeperBoard();
+            updateBingoUI();
+            renderBingoBoard();
+            renderBingoWheel();
             
             // Ocultar resultado anterior
-            const resultElement = document.getElementById('mobile-minesweeper-result');
+            const resultElement = document.getElementById('mobile-bingo-result');
             if (resultElement) {
                 resultElement.classList.add('hidden');
             }
         };
         
-        const getMultiplierForDifficulty = (difficulty) => {
-            switch (difficulty) {
-                case 'easy': return 1.8;
-                case 'medium': return 2.2;
-                case 'hard': return 3.5;
-                default: return 1.8;
-            }
-        };
-        
-        const setMinesweeperDifficulty = (difficulty) => {
-            minesweeperDifficulty = difficulty;
+        const joinBingoRoomRealtime = async () => {
+            if (!currentUser) return;
             
-            switch (difficulty) {
-                case 'easy':
-                    minesweeperBoardSize = 8;
-                    minesweeperMines = 10;
-                    requiredProgress = 75;
-                    gameTimeLimit = 20;
-                    break;
-                case 'medium':
-                    minesweeperBoardSize = 10;
-                    minesweeperMines = 20;
-                    requiredProgress = 55;
-                    gameTimeLimit = 25;
-                    break;
-                case 'hard':
-                    minesweeperBoardSize = 12;
-                    minesweeperMines = 40;
-                    requiredProgress = 29;
-                    gameTimeLimit = 30;
-                    break;
-            }
-            
-            minesweeperTotalCells = minesweeperBoardSize * minesweeperBoardSize;
-            minesweeperTimer = gameTimeLimit;
-            currentMultiplier = getMultiplierForDifficulty(difficulty);
-            
-            // Actualizar botones de dificultad
-            const difficultyButtons = document.querySelectorAll('.difficulty-btn');
-            difficultyButtons.forEach(btn => {
-                if (btn.dataset.difficulty === difficulty) {
-                    btn.classList.add('selected');
-                } else {
-                    btn.classList.remove('selected');
-                }
+            // Unirse a la sala en tiempo real
+            bingoRoomChannel = supabase.channel(bingoRoomId, {
+                config: {
+                    presence: {
+                        key: currentUser.id,
+                    },
+                },
             });
             
-            // Actualizar progreso requerido en UI
-            const requiredProgressElement = document.getElementById('mobile-required-progress');
-            if (requiredProgressElement) {
-                requiredProgressElement.textContent = `${requiredProgress}%`;
+            // Suscribirse a eventos de presencia
+            bingoRoomChannel
+                .on('presence', { event: 'sync' }, () => {
+                    const newState = bingoRoomChannel.presenceState();
+                    updateRoomPlayers(newState);
+                })
+                .on('presence', { event: 'join' }, ({ key, newPresences }) => {
+                    console.log('Nuevo jugador se unió:', key, newPresences);
+                    updateRoomPlayers(bingoRoomChannel.presenceState());
+                })
+                .on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
+                    console.log('Jugador abandonó:', key, leftPresences);
+                    updateRoomPlayers(bingoRoomChannel.presenceState());
+                })
+                .on('broadcast', { event: 'game_start' }, (payload) => {
+                    console.log('Juego iniciado por otro jugador');
+                    startBingoGame();
+                })
+                .on('broadcast', { event: 'number_selected' }, (payload) => {
+                    console.log('Número seleccionado por otro jugador:', payload);
+                    handleRemoteNumberSelection(payload);
+                })
+                .subscribe(async (status) => {
+                    if (status === 'SUBSCRIBED') {
+                        // Una vez suscrito, unirse a la presencia
+                        const presenceTrackStatus = await bingoRoomChannel.track({
+                            user_id: currentUser.id,
+                            user_name: userProfile?.full_name || currentUser.email,
+                            online_at: new Date().toISOString(),
+                        });
+                        
+                        console.log('Conectado a la sala de Bingo');
+                        showToast('Conectado a la sala de Bingo en tiempo real');
+                    }
+                });
+        };
+        
+        const updateRoomPlayers = (presenceState) => {
+            const players = Object.keys(presenceState).length;
+            bingoPlayers = players;
+            
+            // Actualizar contador de jugadores en la UI
+            const mobilePlayersCount = document.getElementById('mobile-players-count');
+            if (mobilePlayersCount) {
+                mobilePlayersCount.textContent = players;
             }
             
-            // Actualizar multiplicador en UI
-            const multiplierElement = document.getElementById('mobile-multiplier');
-            if (multiplierElement) {
-                multiplierElement.textContent = `${currentMultiplier}x`;
+            console.log(`Jugadores en sala: ${players}`);
+            
+            // Si hay suficientes jugadores y todos los números están vendidos, iniciar juego
+            if (players >= bingoMinPlayers && bingoAvailableNumbers.length === 0 && !bingoGameStarted) {
+                // Solo el primer jugador en la sala puede iniciar el juego
+                const isFirstPlayer = Object.keys(presenceState)[0] === currentUser.id;
+                if (isFirstPlayer) {
+                    setTimeout(() => {
+                        startBingoGame();
+                        // Notificar a otros jugadores que el juego ha comenzado
+                        bingoRoomChannel.send({
+                            type: 'broadcast',
+                            event: 'game_start',
+                            payload: { started_by: currentUser.id }
+                        });
+                    }, 3000);
+                }
             }
         };
         
-        const placeMines = (firstClickRow, firstClickCol) => {
-            // Colocar minas aleatoriamente, evitando la primera casilla clickeada
-            let minesPlaced = 0;
-            while (minesPlaced < minesweeperMines) {
-                const row = Math.floor(Math.random() * minesweeperBoardSize);
-                const col = Math.floor(Math.random() * minesweeperBoardSize);
+        const handleRemoteNumberSelection = (payload) => {
+            const { number, user_id } = payload;
+            
+            // No procesar nuestra propia selección
+            if (user_id === currentUser.id) return;
+            
+            // Marcar número como no disponible
+            const index = bingoAvailableNumbers.indexOf(number);
+            if (index > -1) {
+                bingoAvailableNumbers.splice(index, 1);
+            }
+            
+            // Actualizar UI
+            updateBingoUI();
+            renderBingoBoard();
+        };
+        
+        const updateBingoUI = () => {
+            // Actualizar contadores en móvil
+            const mobilePlayersCount = document.getElementById('mobile-players-count');
+            const mobileAvailableNumbers = document.getElementById('mobile-available-numbers');
+            const mobileMyNumbers = document.getElementById('mobile-my-numbers');
+            const mobileTotalCost = document.getElementById('mobile-total-cost');
+            const mobileTimeCount = document.getElementById('mobile-time-count');
+            const buyNumbersBtn = document.getElementById('mobile-buy-numbers-btn');
+            const joinRoomBtn = document.getElementById('mobile-join-room-btn');
+            
+            if (mobilePlayersCount) mobilePlayersCount.textContent = bingoPlayers;
+            if (mobileAvailableNumbers) mobileAvailableNumbers.textContent = bingoAvailableNumbers.length;
+            if (mobileMyNumbers) mobileMyNumbers.textContent = `${bingoSelectedNumbers.length}/${bingoMaxNumbersPerPlayer}`;
+            if (mobileTotalCost) mobileTotalCost.textContent = `${(bingoSelectedNumbers.length * bingoNumberPrice).toFixed(2)} Bs`;
+            if (mobileTimeCount) mobileTimeCount.textContent = bingoTimer;
+            
+            // Actualizar estado de los botones
+            if (buyNumbersBtn) {
+                const canBuy = bingoSelectedNumbers.length >= bingoMinNumbersPerPlayer && 
+                               bingoSelectedNumbers.length <= bingoMaxNumbersPerPlayer &&
+                               (bingoSelectedNumbers.length * bingoNumberPrice) <= currentBalance;
                 
-                // No colocar mina en la primera casilla clickeada ni en sus alrededores
-                if ((row === firstClickRow && col === firstClickCol) || 
-                    (Math.abs(row - firstClickRow) <= 1 && Math.abs(col - firstClickCol) <= 1)) {
-                    continue;
-                }
+                buyNumbersBtn.disabled = !canBuy || bingoGameStarted;
+                buyNumbersBtn.textContent = bingoGameStarted ? 'Juego en curso' : 'Comprar números';
+            }
+            
+            if (joinRoomBtn) {
+                joinRoomBtn.disabled = bingoGameStarted;
+                joinRoomBtn.textContent = bingoGameStarted ? 'Sala llena' : 'Unirse a sala';
+            }
+        };
+        
+        const renderBingoBoard = () => {
+            // Renderizar en móvil
+            const mobileBoard = document.getElementById('mobile-bingo-board');
+            if (mobileBoard) {
+                mobileBoard.innerHTML = '';
                 
-                if (!minesweeperBoard[row][col].isMine) {
-                    minesweeperBoard[row][col].isMine = true;
-                    minesPlaced++;
+                bingoAllNumbers.forEach(number => {
+                    const cellElement = document.createElement('div');
+                    cellElement.className = 'bingo-cell';
+                    cellElement.textContent = number;
+                    cellElement.dataset.number = number;
                     
-                    // Actualizar contadores de minas adyacentes
-                    for (let i = Math.max(0, row - 1); i <= Math.min(minesweeperBoardSize - 1, row + 1); i++) {
-                        for (let j = Math.max(0, col - 1); j <= Math.min(minesweeperBoardSize - 1, col + 1); j++) {
-                            if (!(i === row && j === col)) {
-                                minesweeperBoard[i][j].adjacentMines++;
-                            }
-                        }
+                    // Verificar si el número está seleccionado
+                    if (bingoSelectedNumbers.includes(number)) {
+                        cellElement.classList.add('selected');
                     }
-                }
+                    
+                    // Verificar si el número está disponible
+                    if (!bingoAvailableNumbers.includes(number)) {
+                        cellElement.classList.add('disabled');
+                    }
+                    
+                    cellElement.addEventListener('click', () => handleNumberClick(number));
+                    
+                    mobileBoard.appendChild(cellElement);
+                });
             }
         };
         
-        const revealCell = (row, col) => {
-            // Si el juego no ha comenzado, colocar minas
-            if (!minesweeperGameStarted) {
-                // Verificar si hay saldo suficiente
-                if (selectedBetAmount > currentBalance) {
-                    showToast('Saldo insuficiente', 'error');
+        const renderBingoWheel = () => {
+            // Renderizar ruleta en móvil
+            const mobileWheel = document.getElementById('mobile-bingo-wheel');
+            if (mobileWheel) {
+                // Limpiar ruleta
+                mobileWheel.innerHTML = '<div class="bingo-wheel-pointer"></div>';
+                
+                // Crear segmentos de la ruleta
+                const segmentAngle = 360 / bingoAllNumbers.length;
+                
+                bingoAllNumbers.forEach((number, index) => {
+                    const segmentElement = document.createElement('div');
+                    segmentElement.className = 'bingo-wheel-segment';
+                    segmentElement.textContent = number;
+                    segmentElement.style.transform = `rotate(${index * segmentAngle}deg)`;
+                    segmentElement.style.background = `hsl(${index * (360 / bingoAllNumbers.length)}, 70%, 40%)`;
+                    
+                    mobileWheel.appendChild(segmentElement);
+                });
+            }
+        };
+        
+        const handleNumberClick = (number) => {
+            if (bingoGameStarted || !bingoAvailableNumbers.includes(number)) {
+                return;
+            }
+            
+            // Verificar si el número ya está seleccionado
+            const index = bingoSelectedNumbers.indexOf(number);
+            
+            if (index > -1) {
+                // Deseleccionar número
+                bingoSelectedNumbers.splice(index, 1);
+                bingoAvailableNumbers.push(number);
+            } else {
+                // Verificar límite de números por jugador
+                if (bingoSelectedNumbers.length >= bingoMaxNumbersPerPlayer) {
+                    showToast(`Solo puedes seleccionar hasta ${bingoMaxNumbersPerPlayer} números`, 'error');
                     return;
                 }
                 
-                // Crear transacción de apuesta
-                createTransaction(
-                    currentUser.id, 
-                    selectedBetAmount, 
-                    'bet', 
-                    `Apuesta en Buscaminas (Dificultad: ${minesweeperDifficulty})`
-                );
-                
-                baseBetAmount = selectedBetAmount;
-                placeMines(row, col);
-                minesweeperGameStarted = true;
-                
-                // Iniciar temporizador
-                minesweeperTimerInterval = setInterval(() => {
-                    minesweeperTimer--;
-                    updateMinesweeperUI();
-                    
-                    if (minesweeperTimer <= 0) {
-                        endMinesweeperGameAutomatically();
-                    }
-                }, 1000);
-            }
-            
-            const cell = minesweeperBoard[row][col];
-            
-            // Si la celda está marcada con bandera o ya está revelada, no hacer nada
-            if (cell.isFlagged || cell.isRevealed) {
-                return;
-            }
-            
-            // Revelar la celda
-            cell.isRevealed = true;
-            minesweeperRevealed++;
-            
-            // Si es una mina, fin del juego
-            if (cell.isMine) {
-                endMinesweeperGame(false);
-                return;
-            }
-            
-            // Calcular ganancia parcial
-            calculatePartialWin();
-            
-            // Si no hay minas adyacentes, revelar celdas adyacentes automáticamente
-            if (cell.adjacentMines === 0) {
-                for (let i = Math.max(0, row - 1); i <= Math.min(minesweeperBoardSize - 1, row + 1); i++) {
-                    for (let j = Math.max(0, col - 1); j <= Math.min(minesweeperBoardSize - 1, col + 1); j++) {
-                        if (!(i === row && j === col) && !minesweeperBoard[i][j].isRevealed) {
-                            revealCell(i, j);
-                        }
-                    }
+                // Seleccionar número
+                bingoSelectedNumbers.push(number);
+                const availableIndex = bingoAvailableNumbers.indexOf(number);
+                if (availableIndex > -1) {
+                    bingoAvailableNumbers.splice(availableIndex, 1);
                 }
-            }
-            
-            // Verificar si el jugador ganó
-            if (minesweeperRevealed === minesweeperTotalCells - minesweeperMines) {
-                endMinesweeperGame(true);
+                
+                // Notificar a otros jugadores sobre la selección
+                if (bingoRoomChannel) {
+                    bingoRoomChannel.send({
+                        type: 'broadcast',
+                        event: 'number_selected',
+                        payload: { 
+                            number: number, 
+                            user_id: currentUser.id,
+                            user_name: userProfile?.full_name || currentUser.email
+                        }
+                    });
+                }
             }
             
             // Actualizar UI
-            renderMinesweeperBoard();
-            updateMinesweeperUI();
+            updateBingoUI();
+            renderBingoBoard();
         };
         
-        const calculatePartialWin = () => {
-            if (!minesweeperGameStarted) return;
-            
-            // Calcular porcentaje de progreso
-            gameProgress = (minesweeperRevealed / (minesweeperTotalCells - minesweeperMines)) * 100;
-            
-            // Calcular porcentaje de ganancia actual
-            const winPercentage = Math.round((currentMultiplier - 1) * 100);
-            
-            // Actualizar indicador de porcentaje de ganancia
-            const winPercentageElement = document.getElementById('mobile-win-percentage');
-            if (winPercentageElement) {
-                winPercentageElement.textContent = `+${winPercentage}%`;
+        const joinBingoRoom = async () => {
+            if (bingoGameStarted) {
+                showToast('El juego ya ha comenzado', 'error');
+                return;
             }
             
-            // Actualizar monto de apuesta
-            const betAmountElement = document.getElementById('mobile-bet-display');
-            if (betAmountElement) {
-                betAmountElement.textContent = `${baseBetAmount.toFixed(2)} Bs`;
-            }
-        };
-        
-        const endMinesweeperGameAutomatically = async () => {
-            if (!minesweeperGameActive || !minesweeperGameStarted) return;
-            
-            minesweeperGameActive = false;
-            minesweeperGameStarted = false;
-            
-            // Detener temporizador
-            if (minesweeperTimerInterval) {
-                clearInterval(minesweeperTimerInterval);
-                minesweeperTimerInterval = null;
+            // Verificar si hay números seleccionados
+            if (bingoSelectedNumbers.length < bingoMinNumbersPerPlayer) {
+                showToast(`Debes seleccionar al menos ${bingoMinNumbersPerPlayer} número(s)`, 'error');
+                return;
             }
             
-            // Detener timeout del juego
-            if (minesweeperGameTimeout) {
-                clearTimeout(minesweeperGameTimeout);
-                minesweeperGameTimeout = null;
+            // Verificar saldo suficiente
+            const totalCost = bingoSelectedNumbers.length * bingoNumberPrice;
+            if (totalCost > currentBalance) {
+                showToast('Saldo insuficiente', 'error');
+                return;
             }
             
-            // Verificar si el jugador alcanzó el progreso requerido
-            if (gameProgress >= requiredProgress) {
-                // Victoria - multiplicador según dificultad
-                const winAmount = baseBetAmount * currentMultiplier;
-                
-                // Procesar ganancia
-                await createTransaction(
-                    currentUser.id, 
-                    winAmount, 
-                    'deposit', 
-                    `Ganancia en Buscaminas (Dificultad: ${minesweeperDifficulty})`
-                );
-                
-                await createBet(
-                    currentUser.id,
-                    'minesweeper',
-                    baseBetAmount,
-                    'win',
-                    winAmount,
-                    { 
-                        difficulty: minesweeperDifficulty, 
-                        time: gameTimeLimit - minesweeperTimer,
-                        mines: minesweeperMines,
-                        multiplier: currentMultiplier,
-                        progress: gameProgress,
-                        automatic: true
-                    }
-                );
-                
-                showToast(`¡Ganaste ${winAmount.toFixed(2)} Bs!`, 'success');
-                
-                // Mostrar resultado
-                const resultElement = document.getElementById('mobile-minesweeper-result');
-                if (resultElement) {
-                    resultElement.textContent = `¡Ganaste ${winAmount.toFixed(2)} Bs!`;
-                    resultElement.className = 'game-result win';
-                    resultElement.classList.remove('hidden');
-                }
-            } else {
-                // Derrota - pierde la apuesta
-                showToast(`Perdiste ${baseBetAmount.toFixed(2)} Bs`, 'error');
-                
-                // Mostrar resultado
-                const resultElement = document.getElementById('mobile-minesweeper-result');
-                if (resultElement) {
-                    resultElement.textContent = '¡Perdiste!';
-                    resultElement.className = 'game-result loss';
-                    resultElement.classList.remove('hidden');
-                }
-            }
+            // Crear transacción de apuesta
+            await createTransaction(
+                currentUser.id, 
+                totalCost, 
+                'bet', 
+                `Apuesta en Bingo (${bingoSelectedNumbers.length} números)`,
+                { numbers: bingoSelectedNumbers }
+            );
             
-            // Reiniciar juego automáticamente después de 2 segundos
-            setTimeout(() => {
-                initializeMinesweeper();
-            }, 2000);
+            // Actualizar saldo
+            currentBalance = await calculateBalance(currentUser.id);
+            
+            showToast(`Te has unido a la sala con ${bingoSelectedNumbers.length} número(s)`);
             
             // Actualizar UI
             updateUI();
+            updateBingoUI();
         };
         
-        const endMinesweeperGame = async (win) => {
-            minesweeperGameActive = false;
-            minesweeperGameStarted = false;
+        const startBingoGame = () => {
+            bingoGameActive = true;
+            bingoGameStarted = true;
             
-            // Detener temporizador
-            if (minesweeperTimerInterval) {
-                clearInterval(minesweeperTimerInterval);
-                minesweeperTimerInterval = null;
-            }
-            
-            // Detener timeout del juego
-            if (minesweeperGameTimeout) {
-                clearTimeout(minesweeperGameTimeout);
-                minesweeperGameTimeout = null;
-            }
-            
-            // Revelar todas las minas
-            for (let i = 0; i < minesweeperBoardSize; i++) {
-                for (let j = 0; j < minesweeperBoardSize; j++) {
-                    if (minesweeperBoard[i][j].isMine) {
-                        minesweeperBoard[i][j].isRevealed = true;
-                    }
+            // Iniciar temporizador de juego
+            bingoTimerInterval = setInterval(() => {
+                bingoTimer--;
+                updateBingoUI();
+                
+                if (bingoTimer <= 0) {
+                    endBingoGame();
                 }
-            }
+            }, 1000);
+            
+            showToast('¡El juego ha comenzado!');
+            
+            // Iniciar la ruleta después de 3 segundos
+            setTimeout(() => {
+                spinBingoWheel();
+            }, 3000);
             
             // Actualizar UI
-            renderMinesweeperBoard();
+            updateBingoUI();
+        };
+        
+        const spinBingoWheel = () => {
+            if (bingoWheelSpinning) return;
+            
+            bingoWheelSpinning = true;
+            const wheel = document.getElementById('mobile-bingo-wheel');
+            wheel.classList.add('spinning');
+            
+            // Simular giro de la ruleta
+            setTimeout(() => {
+                wheel.classList.remove('spinning');
+                wheel.classList.add('slow-spin');
+                
+                setTimeout(() => {
+                    wheel.classList.remove('slow-spin');
+                    wheel.classList.add('slower-spin');
+                    
+                    setTimeout(() => {
+                        wheel.classList.remove('slower-spin');
+                        wheel.classList.add('stopping');
+                        
+                        // Obtener número ganador aleatorio
+                        const winningNumber = Math.floor(Math.random() * bingoAllNumbers.length) + 1;
+                        bingoWinningNumbers.push(winningNumber);
+                        
+                        // Verificar si hay ganadores
+                        checkBingoWinners();
+                        
+                        setTimeout(() => {
+                            wheel.classList.remove('stopping');
+                            bingoWheelSpinning = false;
+                            
+                            // Si no hay ganadores después de todos los intentos, finalizar el juego
+                            if (bingoWinningNumbers.length >= Math.max(...Object.values(bingoRequiredRepetitions))) {
+                                endBingoGame();
+                            } else {
+                                // Continuar girando la ruleta
+                                spinBingoWheel();
+                            }
+                        }, 2000);
+                    }, 2000);
+                }, 2000);
+            }, 1000);
+        };
+        
+        const checkBingoWinners = () => {
+            // Contar repeticiones de cada número
+            const numberCounts = {};
+            bingoWinningNumbers.forEach(num => {
+                numberCounts[num] = (numberCounts[num] || 0) + 1;
+            });
+            
+            // Encontrar ganadores
+            bingoWinners = [];
+            
+            // Primer lugar (4 repeticiones)
+            const firstPlace = Object.keys(numberCounts).find(num => numberCounts[num] >= bingoRequiredRepetitions.first);
+            if (firstPlace) {
+                bingoWinners.push({
+                    number: parseInt(firstPlace),
+                    place: 1,
+                    prize: bingoPrizes.first,
+                    repetitions: numberCounts[firstPlace]
+                });
+            }
+            
+            // Segundo lugar (3 repeticiones)
+            const secondPlace = Object.keys(numberCounts).find(num => 
+                numberCounts[num] >= bingoRequiredRepetitions.second && 
+                parseInt(num) !== (firstPlace ? parseInt(firstPlace) : null)
+            );
+            if (secondPlace) {
+                bingoWinners.push({
+                    number: parseInt(secondPlace),
+                    place: 2,
+                    prize: bingoPrizes.second,
+                    repetitions: numberCounts[secondPlace]
+                });
+            }
+            
+            // Tercer lugar (2 repeticiones)
+            const thirdPlace = Object.keys(numberCounts).find(num => 
+                numberCounts[num] >= bingoRequiredRepetitions.third && 
+                parseInt(num) !== (firstPlace ? parseInt(firstPlace) : null) &&
+                parseInt(num) !== (secondPlace ? parseInt(secondPlace) : null)
+            );
+            if (thirdPlace) {
+                bingoWinners.push({
+                    number: parseInt(thirdPlace),
+                    place: 3,
+                    prize: bingoPrizes.third,
+                    repetitions: numberCounts[thirdPlace]
+                });
+            }
+            
+            // Mostrar resultados parciales
+            if (bingoWinners.length > 0) {
+                showToast(`¡Tenemos ${bingoWinners.length} ganador(es)!`);
+            }
+        };
+        
+        const endBingoGame = async () => {
+            bingoGameActive = false;
+            bingoGameStarted = false;
+            
+            // Detener temporizador
+            if (bingoTimerInterval) {
+                clearInterval(bingoTimerInterval);
+                bingoTimerInterval = null;
+            }
+            
+            // Verificar si el usuario ganó
+            let userWon = false;
+            let userPrize = 0;
+            let userPlace = 0;
+            
+            bingoWinners.forEach(winner => {
+                if (bingoSelectedNumbers.includes(winner.number)) {
+                    userWon = true;
+                    userPrize = winner.prize;
+                    userPlace = winner.place;
+                }
+            });
             
             // Mostrar resultado
-            const resultElement = document.getElementById('mobile-minesweeper-result');
+            const resultElement = document.getElementById('mobile-bingo-result');
             if (resultElement) {
-                if (win === true) {
-                    // Victoria completa - multiplicador completo
-                    const winAmount = baseBetAmount * currentMultiplier;
-                    
-                    resultElement.textContent = `¡Ganaste ${winAmount.toFixed(2)} Bs!`;
-                    resultElement.className = 'game-result win';
+                if (userWon) {
+                    resultElement.textContent = `¡Ganaste ${userPrize} Bs (${userPlace}° lugar)!`;
+                    resultElement.className = 'bingo-result win';
                     resultElement.classList.remove('hidden');
                     
-                    // Procesar ganancia completa
+                    // Procesar ganancia
                     await createTransaction(
                         currentUser.id, 
-                        winAmount, 
+                        userPrize, 
                         'deposit', 
-                        `Ganancia completa en Buscaminas (Dificultad: ${minesweeperDifficulty})`
+                        `Ganancia en Bingo (${userPlace}° lugar)`
                     );
                     
                     await createBet(
                         currentUser.id,
-                        'minesweeper',
-                        baseBetAmount,
+                        'bingo',
+                        bingoSelectedNumbers.length * bingoNumberPrice,
                         'win',
-                        winAmount,
+                        userPrize,
                         { 
-                            difficulty: minesweeperDifficulty, 
-                            time: gameTimeLimit - minesweeperTimer,
-                            mines: minesweeperMines,
-                            multiplier: currentMultiplier,
-                            progress: 100
+                            numbers: bingoSelectedNumbers,
+                            winning_number: bingoWinners.find(w => w.place === userPlace).number,
+                            place: userPlace
                         }
                     );
                     
-                    showToast(`¡Ganaste ${winAmount.toFixed(2)} Bs!`, 'success');
-                    
+                    showToast(`¡Felicidades! Ganaste ${userPrize} Bs`, 'success');
                 } else {
-                    // Derrota
-                    resultElement.textContent = '¡Perdiste!';
-                    resultElement.className = 'game-result loss';
+                    resultElement.textContent = '¡No ganaste esta vez!';
+                    resultElement.className = 'bingo-result loss';
                     resultElement.classList.remove('hidden');
                     
-                    // Ya se procesó la pérdida al inicio del juego
-                    showToast(`Perdiste ${baseBetAmount.toFixed(2)} Bs`, 'error');
+                    // Registrar apuesta perdida
+                    await createBet(
+                        currentUser.id,
+                        'bingo',
+                        bingoSelectedNumbers.length * bingoNumberPrice,
+                        'loss',
+                        0,
+                        { 
+                            numbers: bingoSelectedNumbers,
+                            winning_numbers: bingoWinningNumbers
+                        }
+                    );
+                    
+                    showToast('Mejor suerte la próxima vez', 'error');
                 }
             }
             
-            // Reiniciar juego automáticamente después de 2 segundos
+            // Reiniciar juego automáticamente después de 5 segundos
             setTimeout(() => {
-                initializeMinesweeper();
-            }, 2000);
+                initializeBingo();
+            }, 5000);
             
             // Actualizar UI
             updateUI();
-        };
-        
-        const updateMinesweeperUI = () => {
-            // Actualizar contadores en móvil
-            const mobileMinesCount = document.getElementById('mobile-mines-count');
-            const mobileProgressCount = document.getElementById('mobile-progress-count');
-            const mobileTimeCount = document.getElementById('mobile-time-count');
-            const mobileMultiplier = document.getElementById('mobile-multiplier');
-            const progressFill = document.getElementById('mobile-progress-fill');
-            const progressStats = document.querySelectorAll('.minesweeper-stats-value');
-            
-            if (mobileMinesCount) mobileMinesCount.textContent = minesweeperMines - minesweeperFlags;
-            if (mobileProgressCount) mobileProgressCount.textContent = `${Math.round(gameProgress)}%`;
-            if (mobileTimeCount) mobileTimeCount.textContent = minesweeperTimer;
-            if (mobileMultiplier) mobileMultiplier.textContent = `${currentMultiplier}x`;
-            
-            // Actualizar barra de progreso
-            if (progressFill) {
-                progressFill.style.width = `${gameProgress}%`;
-                if (gameProgress >= requiredProgress) {
-                    progressFill.classList.add('achieved');
-                    // Cambiar color del texto de progreso a verde
-                    progressStats.forEach(stat => {
-                        if (stat.textContent.includes('%')) {
-                            stat.classList.add('progress-achieved');
-                        }
-                    });
-                } else {
-                    progressFill.classList.remove('achieved');
-                    progressStats.forEach(stat => {
-                        stat.classList.remove('progress-achieved');
-                    });
-                }
-            }
-        };
-        
-        const renderMinesweeperBoard = () => {
-            // Renderizar en móvil
-            const mobileBoard = document.getElementById('mobile-minesweeper-board');
-            if (mobileBoard) {
-                mobileBoard.innerHTML = '';
-                mobileBoard.style.gridTemplateColumns = `repeat(${minesweeperBoardSize}, 1fr)`;
-                
-                for (let i = 0; i < minesweeperBoardSize; i++) {
-                    for (let j = 0; j < minesweeperBoardSize; j++) {
-                        const cell = minesweeperBoard[i][j];
-                        const cellElement = document.createElement('div');
-                        cellElement.className = 'minesweeper-cell';
-                        cellElement.dataset.row = i;
-                        cellElement.dataset.col = j;
-                        
-                        if (cell.isRevealed) {
-                            cellElement.classList.add('revealed');
-                            if (cell.isMine) {
-                                cellElement.classList.add('mine');
-                                cellElement.innerHTML = '<i class="fas fa-bomb"></i>';
-                            } else if (cell.adjacentMines > 0) {
-                                cellElement.classList.add(`number-${cell.adjacentMines}`);
-                                cellElement.textContent = cell.adjacentMines;
-                            }
-                        } else if (cell.isFlagged) {
-                            cellElement.classList.add('flag');
-                            cellElement.innerHTML = '<i class="fas fa-flag"></i>';
-                        }
-                        
-                        cellElement.addEventListener('click', () => handleCellClick(i, j));
-                        
-                        mobileBoard.appendChild(cellElement);
-                    }
-                }
-            }
-        };
-        
-        const handleCellClick = (row, col) => {
-            if (!minesweeperGameActive) {
-                return;
-            }
-            
-            revealCell(row, col);
         };
         
         // Funciones para renderizar datos
@@ -2225,8 +2318,11 @@
                 return;
             }
             
-            // Inicializar Buscaminas
-            initializeMinesweeper();
+            // Inicializar Bingo
+            initializeBingo();
+            
+            // Unirse a la sala en tiempo real automáticamente
+            joinBingoRoomRealtime();
             
             // Actualizar UI con datos del usuario
             const nameElements = document.querySelectorAll('#mobile-user-name');
@@ -2331,6 +2427,11 @@
             const logoutButtons = document.querySelectorAll('#mobile-logout-btn');
             logoutButtons.forEach(btn => {
                 btn.addEventListener('click', async () => {
+                    // Salir de la sala en tiempo real
+                    if (bingoRoomChannel) {
+                        await bingoRoomChannel.unsubscribe();
+                    }
+                    
                     await supabase.auth.signOut();
                     window.location.href = 'index.html';
                 });
@@ -2709,28 +2810,18 @@
                 });
             });
             
-            // Configuración del Buscaminas
+            // Configuración del Bingo
             
-            // Botones de dificultad
-            const difficultyButtons = document.querySelectorAll('.difficulty-btn');
-            difficultyButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const difficulty = btn.dataset.difficulty;
-                    setMinesweeperDifficulty(difficulty);
-                    initializeMinesweeper();
-                });
-            });
+            // Botón para comprar números
+            const buyNumbersBtn = document.getElementById('mobile-buy-numbers-btn');
+            if (buyNumbersBtn) {
+                buyNumbersBtn.addEventListener('click', joinBingoRoom);
+            }
             
-            // Manejo del campo de apuesta
-            const betInput = document.getElementById('mobile-bet-amount-input');
-            if (betInput) {
-                betInput.addEventListener('input', () => {
-                    selectedBetAmount = parseFloat(betInput.value) || 0;
-                    const betDisplay = document.getElementById('mobile-bet-display');
-                    if (betDisplay) {
-                        betDisplay.textContent = `${selectedBetAmount.toFixed(2)} Bs`;
-                    }
-                });
+            // Botón para unirse a sala
+            const joinRoomBtn = document.getElementById('mobile-join-room-btn');
+            if (joinRoomBtn) {
+                joinRoomBtn.addEventListener('click', joinBingoRoom);
             }
             
             // Cargar datos iniciales
